@@ -17,4 +17,5 @@ extern int modelCount;
 extern model* models;
 //loads models
 extern void loadModels(char* dest);
+extern void triNormal(struct tri* t);
 #endif

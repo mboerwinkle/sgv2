@@ -4,9 +4,40 @@
 #include <math.h>
 #include "geo.h"
 
+void cross(vector a, vector b, vector save){
+	vector ret;
+	ret[0] = a[1]*b[2]-a[2]*b[1];
+	ret[1] = a[2]*b[0]-a[0]*b[2];
+	ret[2] = a[0]*b[1]-a[1]*b[0];
+	vecEqual(save, ret);
+}
+void crossf(vectorf a, vectorf b, vectorf save){
+	vectorf ret;
+	ret[0] = a[1]*b[2]-a[2]*b[1];
+	ret[1] = a[2]*b[0]-a[0]*b[2];
+	ret[2] = a[0]*b[1]-a[1]*b[0];
+	vecfEqual(save, ret);
+}
+
+void vecNormalize(vector a){
+	double val = vecLen(a);
+	a[0]/=val;
+	a[1]/=val;
+	a[2]/=val;
+}
+void vecfNormalize(vectorf a){
+	double val = vecfLen(a);
+	a[0]/=val;
+	a[1]/=val;
+	a[2]/=val;
+}
+
 //macrotize
 void vecEqual(vector a, vector b){
 	memcpy(a, b, sizeof(vector));
+}
+void vecfEqual(vectorf a, vectorf b){
+	memcpy(a, b, sizeof(vectorf));
 }
 void p3dEqual(point3d a, point3d b){
 	memcpy(a, b, sizeof(point3d));
@@ -19,7 +50,7 @@ void quatEqual(quaternion a, quaternion b){
 double vecLen(vector a){
 	return sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
 }
-double floatVecLen(floatVector a){
+double vecfLen(vectorf a){
 	return sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
 }
 

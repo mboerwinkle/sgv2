@@ -6,14 +6,14 @@
 #include <netinet/in.h>
 #include "sendMessage.h"
 #include "net/listen.h"//FIXME shouldnt have things needed here there. make a sepearate header file used by both
-char packet[MSGSIZE];
+char packet[MSGSIZE] = {0};
 const int usableLength = MSGSIZE-2;
 char* msgIdx = packet;
 char* packetIdx = packet+1;
 void sendMessage(struct sockaddr_in *addr, char* data, int datalen){
 	(*msgIdx)++;
 	(*packetIdx) = 0;
-	int packetSize;
+	int packetSize = 0;
 	while(datalen > 0){
 		if(datalen > usableLength){
 			packetSize = usableLength;

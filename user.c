@@ -26,7 +26,7 @@ void sendAllUserData(){
 	}
 }
 void sendView(user* destination){
-	static char data[100000] = "SCN";//fixme magic number overflow
+	static char data[100000] = {'S', 'C', 'N', 0};//fixme magic number overflow
 	int dloc = 3;//next free place to write to
 	ship** draw;
 	int quantity = getShipsWithin(&draw, destination->myPosition, VIEW_DISTANCE);
@@ -52,6 +52,6 @@ networkShipData getNetworkShipData(ship* target){
 	quatEqual(ret.myRotation, target->myRotation);
 	ret.type = target->type;
 	ret.color = target->color;
-	strcpy(ret.name, target->name);
+//	strcpy(ret.name, target->name);
 	return ret;
 }

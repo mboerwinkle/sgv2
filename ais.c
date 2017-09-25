@@ -7,11 +7,11 @@ void humanAi(ship* target, aiData* data){
 	user* me = data->human.myuser;
 	p3dEqual(me->myPosition, target->myPosition);
 	quatEqual(me->myRotation, target->myRotation);
-	vector pointer = {0.707, 0, -0.707};
+	vector pointer = {1, 0, 0};
 	rotVector(pointer, me->myRotation);
-	me->myPosition[0] -= target->myModel->radius*pointer[0];//fixme clean
-	me->myPosition[1] -= target->myModel->radius*pointer[1];
-	me->myPosition[2] -= target->myModel->radius*pointer[2];
+	me->myPosition[0] += target->myModel->radius*pointer[0];//fixme clean
+	me->myPosition[1] += target->myModel->radius*pointer[1];
+	me->myPosition[2] += target->myModel->radius*pointer[2];
 	controlMap ctl = me->myControls;
 	//ctl.accel
 	double accel = target->accel;

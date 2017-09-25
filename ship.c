@@ -12,9 +12,9 @@ void tickShips(){
 		currShip->ai(currShip, &(currShip->myAiData));
 		double axis[3] = {1, 0, 0};
 		rotVector(axis, currShip->myRotation);
-		currShip->myPosition[0]+=currShip->speed*axis[0];
-		currShip->myPosition[1]+=currShip->speed*axis[1];
-		currShip->myPosition[2]+=currShip->speed*axis[2];
+		currShip->myPosition[0]+=(currShip->speed)*(axis[0]);
+		currShip->myPosition[1]+=(currShip->speed)*(axis[1]);
+		currShip->myPosition[2]+=(currShip->speed)*(axis[2]);
 	}
 }
 

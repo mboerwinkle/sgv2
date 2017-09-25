@@ -40,7 +40,7 @@ void initGrid(){
 			if(p[dim] < min[dim]) min[dim] = p[dim];
 			if(p[dim] > max[dim]) max[dim] = p[dim];
 		}
-		printf("min %d %d %d\nmax %d %d %d\n", min[0], min[1], min[2], max[0], max[1], max[2]);
+//		printf("min %d %d %d\nmax %d %d %d\n", min[0], min[1], min[2], max[0], max[1], max[2]);
 		int mindif = max[2]-min[2];
 		for(int dim = 0; dim < 2; dim++){
 			if(max[dim]-min[dim] > mindif) mindif = max[dim]-min[dim];
@@ -88,6 +88,7 @@ void addShip(ship* ref, int nodeIdx){
 			int colPtr = getCollision();
 			collisionList[colPtr][0] = ref;
 			collisionList[colPtr][1] = shipIdList[oldPtr].ref;
+			puts("collision");
 		}
 		return;
 	}

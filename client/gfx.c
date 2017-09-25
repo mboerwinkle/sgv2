@@ -66,10 +66,11 @@ void drawShip(short type, point3d where, quaternion rot, char color, char* name)
 	glTranslated(pos[0], pos[1], pos[2]);
 	glMultMatrixd(rotMatrix);
 	glBegin(GL_TRIANGLES);
-	vectorf facingf = {facing[0], facing[1], facing[2]};//FIXME this is why we need macros
 	for(int idx = 0; idx < models[type].triangleCount; idx++){
 		struct tri* t = &(models[type].triangles[idx]);
-		double mult =  fabs(dotf(t->vec, facingf));
+		vector rotatedNormal = {t->vec[0], t->vec[1], t->vec[2]};
+		rotVector(rotatedNormal, rot);
+		double mult =  fabs(dot(rotatedNormal, facing));
 		glColor3f(0.5*mult, 0.3*mult, 0.7*mult);
 		v3f(t->p1[0], t->p1[1], t->p1[2]);
 		v3f(t->p2[0], t->p2[1], t->p2[2]);

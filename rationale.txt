@@ -1,0 +1,34 @@
+UNITS::: 1 == 1 cm
+Default orientation::: 1,0,0,0, facing 1,0,0
+types:
+	ships
+		hp
+		abilities (5)
+		position
+		rotation
+		speed
+		acceleration
+		deceleration
+		rollspeed
+		pitchspeed
+		yawspeed
+	{
+		check collisions and kill
+	}
+	{
+		check if dead
+		poll ai
+			perform abilities
+		apply movement
+	}
+	bullets
+		bullets reduce health
+		speed
+		behavior (straight, curved down, seeking)
+		ticks alive
+	{
+		move
+	}
+	{
+		check collisions and damage
+	}

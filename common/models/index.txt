@@ -1,0 +1,4 @@
+3
+ship1.stl
+tieInterceptor.stl
+tieInterceptorHIPOLY.stl

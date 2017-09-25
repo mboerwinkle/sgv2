@@ -1,0 +1,14 @@
+networking
+different ais
+spawn queue
+lasers
+bullets
+seeking missiles
+abilities
+asteroid field
+
+BIG TOPICS:
+	ship modeling, collisions
+	ship ai
+	client
+	abilities

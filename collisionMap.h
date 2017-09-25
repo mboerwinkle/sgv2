@@ -1,5 +1,5 @@
-#ifndef "COLLISIONMAP_H"
-#define "COLLISIONMAP_H"
+#ifndef COLLISIONMAP_H
+#define COLLISIONMAP_H
 #include "common/geo/geo.h"
 #include "ship.h"
 #define GRANULARITY 500//just a guess. should be tuned later

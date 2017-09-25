@@ -15,6 +15,13 @@ void quatEqual(quaternion a, quaternion b){
 	memcpy(a, b, sizeof(quaternion));
 }
 
+//FIXME macrotize
+double vecLen(vector a){
+	return sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
+}
+double floatVecLen(floatVector a){
+	return sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
+}
 
 //append a to b and save to save
 void quatMult(double* a, double* b, double* save){

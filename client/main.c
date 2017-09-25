@@ -31,7 +31,7 @@ int main(int argc, char** argv){
 	}
 	initGfx();
 	while(1){
-		lerp(myRot, myRot, targRot, 0.5);
+		lerp(myRot, myRot, targRot, 0.3);
 		handleNetwork();
 		if(handleEvents()){
 			break;

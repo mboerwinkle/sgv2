@@ -57,7 +57,6 @@ typedef struct ship{
 	double rollSpeed;
 	double pitchSpeed;
 	double yawSpeed;
-	int radius;
 	char color;
 	char type;
 	model* myModel;

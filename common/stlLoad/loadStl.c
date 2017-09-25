@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "loadStl.h"
+#include "../geo/geo.h"
 
 int modelCount = 0;
 model* models = NULL;
@@ -38,4 +39,15 @@ void loadModel(char* dest, model* target){
 	target->triangles = calloc(target->triangleCount, sizeof(struct tri));
 	fread(target->triangles, sizeof(struct tri), target->triangleCount, thisModel);
 	fclose(thisModel);
+	//find radius
+	target->radius = 0;
+	for(int triIdx = 0; triIdx < target->triangleCount; triIdx++){
+		double newRadius = floatVecLen(target->triangles[triIdx].p1);
+		if(newRadius > target->radius) target->radius = newRadius;
+		newRadius = floatVecLen(target->triangles[triIdx].p2);
+		if(newRadius > target->radius) target->radius = newRadius;
+		newRadius = floatVecLen(target->triangles[triIdx].p3);
+		if(newRadius > target->radius) target->radius = newRadius;
+	}
+	//find normal
 }

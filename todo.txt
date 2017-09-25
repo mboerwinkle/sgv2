@@ -1,4 +1,3 @@
-networking
 different ais
 spawn queue
 lasers
@@ -10,5 +9,4 @@ asteroid field
 BIG TOPICS:
 	ship modeling, collisions
 	ship ai
-	client
 	abilities

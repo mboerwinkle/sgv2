@@ -21,7 +21,8 @@ void createGrid(){
 	for(int shipIdx = 0; shipIdx < shipCount; shipIdx++){
 		addShip(&(shipList[shipIdx]), 0);
 	}
-	showGrid();
+//	showGrid(&(nodeList[0]), 0);
+//	printf("---------------------------------\n");
 }
 void initGrid(){
 	//reset allocated memory
@@ -58,6 +59,7 @@ int getNode(){
 		nodeList = realloc(nodeList, sizeof(node)*nodeCount);
 	}
 	memset(&(nodeList[nodesUsed]), 0, sizeof(node));
+	nodeList[nodesUsed].shipIdIdx = -1;
 	nodesUsed++;
 	return nodesUsed-1;
 }
@@ -84,11 +86,12 @@ void addShip(ship* ref, int nodeIdx){
 		nodeList[nodeIdx].shipIdIdx = newPtr;
 		shipIdList[newPtr].ref = ref;
 		shipIdList[newPtr].shipIdIdx = oldPtr;
-		while(oldPtr != 0){
+		while(oldPtr != -1){
 			int colPtr = getCollision();
 			collisionList[colPtr][0] = ref;
 			collisionList[colPtr][1] = shipIdList[oldPtr].ref;
-			puts("collision");
+			oldPtr = shipIdList[oldPtr].shipIdIdx;
+//			puts("collision");
 		}
 		return;
 	}
@@ -157,5 +160,20 @@ void addShip(ship* ref, int nodeIdx){
 		}
 	}
 }
-void showGrid(){
+void showGrid(node* thisOne, int tabs){
+	for(int tab = 0; tab < tabs; tab++) printf("  ");
+	printf("S%d{\n", thisOne->size);
+	for(int x = 0; x < 8; x++){
+		if(thisOne->children[x] != 0){
+			showGrid(&(nodeList[thisOne->children[x]]), tabs+1);
+		}
+	}
+	int shipIdIdx = thisOne->shipIdIdx;
+	while(shipIdIdx != -1){
+		for(int tab = 0; tab < tabs; tab++) printf("  ");
+		printf("_ship_\n");
+		shipIdIdx = shipIdList[shipIdIdx].shipIdIdx;//is this enough yet? :(
+	}
+	for(int tab = 0; tab < tabs; tab++) printf("  ");
+	printf("}\n");
 }

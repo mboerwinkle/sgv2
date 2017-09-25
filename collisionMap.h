@@ -2,7 +2,7 @@
 #define COLLISIONMAP_H
 #include "common/geo/geo.h"
 #include "ship.h"
-#define GRANULARITY 500//just a guess. should be tuned later
+#define GRANULARITY 1200//just a guess. should be tuned later
 /*brief intro here.
 Octree collision map supposed to provide O(n) ship collision lookup time (where n is the number of ships assuming identical density)
 
@@ -49,7 +49,7 @@ extern shipId* shipIdList;
 extern void createGrid();
 extern void initGrid();
 extern void addShip(ship* ref, int nodeIdx);
-extern void showGrid();
+extern void showGrid(node* thisOne, int tabs);
 
 //all the get functions are like custom mallocs
 extern int getNode();

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-
+#include "collisionMap.h"
 #include "bullet.h"
 #include "ship.h"
 #include "common/geo/geo.h"
@@ -26,6 +25,7 @@ int main(){
 		delay(40);
 		sendAllUserData();
 		tickShips();
+		createGrid();
 		tickCount++;
 //		checkCollisions(shipList);
 //		tickBullets(bulletList);

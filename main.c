@@ -20,7 +20,7 @@ int main(){
 	setupNetworkListen();
 	point3d cs = {5000000, 5000000, 5000000};
 	quaternion cr = {1, 0, 0, 0};
-	spawnComputerShip(cs, cr, 1);
+	spawnComputerShip(cs, cr, 0);
 	while(1){
 		delay(40);
 		sendAllUserData();

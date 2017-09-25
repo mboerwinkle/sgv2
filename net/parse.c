@@ -11,7 +11,7 @@ void netParse(int userIdx, char* msg){
 		puts("Spawning");
 		point3d loc = {5000000, 5000000, 5000000};
 		quaternion rot = {1, 0, 0, 0};
-		spawnHumanShip(userIdx, loc, rot, 1);
+		spawnHumanShip(userIdx, loc, rot, 0);
 	}
 	
 }

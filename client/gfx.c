@@ -20,11 +20,7 @@
 #include "../common/stlLoad/loadStl.h"
 #define v3f glVertex3f  /* v3f was the short IRIS GL name for glVertex3f */
 void rotateView(){
-	double lookAt[3] = {1,0,0};
-	double upVector[3] = {0,0,1};
-	rotVector(lookAt, myRot);
-	rotVector(upVector, myRot);
-	gluLookAt(0,0,0,lookAt[0], lookAt[1], lookAt[2], upVector[0], upVector[1], upVector[2]);
+	gluLookAt(0,0,0,facing[0], facing[1], facing[2], upVector[0], upVector[1], upVector[2]);
 }
 void drawBullet(bullet* targ){
 	GLfloat red = 0, green = 0, blue = 0;
@@ -50,8 +46,8 @@ void drawLine(point3d a, point3d b){
 	glPopMatrix();
 }
 void drawShip(short type, point3d where, quaternion rot, char color, char* name) {
-	point3d end = {where[0], where[1], where[2]+5};
-	drawLine(where, end);
+//	point3d end = {where[0], where[1], where[2]+5};
+//	drawLine(where, end);
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	double pos[3];
@@ -69,11 +65,12 @@ void drawShip(short type, point3d where, quaternion rot, char color, char* name)
 	rotateView();
 	glTranslated(pos[0], pos[1], pos[2]);
 	glMultMatrixd(rotMatrix);
-	//glRotated(-90, 0, 0, 1);
 	glBegin(GL_TRIANGLES);
-	glColor3f(0.5, 0.3, 0.7);
+	vectorf facingf = {facing[0], facing[1], facing[2]};//FIXME this is why we need macros
 	for(int idx = 0; idx < models[type].triangleCount; idx++){
 		struct tri* t = &(models[type].triangles[idx]);
+		double mult =  fabs(dotf(t->vec, facingf));
+		glColor3f(0.5*mult, 0.3*mult, 0.7*mult);
 		v3f(t->p1[0], t->p1[1], t->p1[2]);
 		v3f(t->p2[0], t->p2[1], t->p2[2]);
 		v3f(t->p3[0], t->p3[1], t->p3[2]);
@@ -116,8 +113,7 @@ void initGfx() {
 	glFrustum(-1.0, 1.0, -1.0, 1.0, 1.0, 5000);
 	//Edit the modelview matrix (The "default" matrix)
 	glMatrixMode(GL_MODELVIEW);
-	//The default plane model requires each polygon to be a flat color to look right
-	glShadeModel(GL_FLAT);//FIXME not anything to fix here. just mentioning that GL_SMOOTH looks hella nice.
+	glShadeModel(GL_SMOOTH);//FIXME not anything to fix here. just mentioning that GL_SMOOTH looks hella nice.//as opposed to GL_FLAT
 }
 
 void quitGfx() {

@@ -8,7 +8,10 @@ typedef double quaternion[4];
 
 extern void cross(vector a, vector b, vector save);
 extern void crossf(vectorf a, vectorf b, vectorf save);
+extern double dot(vector a, vector b);
+extern double dotf(vectorf a, vectorf b);
 extern void vecNormalize(vector a);
+extern void vecfNormalize(vectorf a);
 
 extern void vecEqual(vector a, vector b);
 extern void vecfEqual(vectorf a, vectorf b);

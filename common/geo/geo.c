@@ -19,6 +19,13 @@ void crossf(vectorf a, vectorf b, vectorf save){
 	vecfEqual(save, ret);
 }
 
+double dot(vector a, vector b){
+	return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+}
+double dotf(vectorf a, vectorf b){
+	return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+}
+
 void vecNormalize(vector a){
 	double val = vecLen(a);
 	a[0]/=val;

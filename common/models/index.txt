@@ -1,5 +1,5 @@
-4
+3
 ship1.stl
 tieInterceptor.stl
-dildo2.stl
+spinner.stl
 tieInterceptorHIPOLY.stl

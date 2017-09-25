@@ -20,6 +20,8 @@ char localhost[10] = "127.0.0.1";
 point3d myPos;
 quaternion myRot = {1,0,0,0};
 quaternion targRot = {1,0,0,0};
+vector facing = {1, 0, 0};
+vector upVector = {0, 0, 1};
 int main(int argc, char** argv){
 	loadModels("../common/models/");
 	if(argc == 1){
@@ -32,6 +34,14 @@ int main(int argc, char** argv){
 	initGfx();
 	while(1){
 		lerp(myRot, myRot, targRot, 0.3);
+		facing[0] = 1;
+		facing[1] = 0;
+		facing[2] = 0;
+		upVector[0] = 0;
+		upVector[1] = 0;
+		upVector[2] = 1;
+		rotVector(facing, myRot);
+		rotVector(upVector, myRot);
 		handleNetwork();
 		if(handleEvents()){
 			break;

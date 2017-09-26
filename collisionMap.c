@@ -3,9 +3,6 @@
 #include <limits.h>
 #include "collisionMap.h"
 
-int collisionCount = 0;
-int collisionsUsed;//reset each tick
-collision* collisionList = NULL;
 point3d min;//zeroed each tick
 point3d max;//zeroed each tick
 int gridSize;//reset each tick;
@@ -15,6 +12,10 @@ node* nodeList = NULL;
 int shipIdCount = 0;
 int shipIdsUsed;//reset each tick
 shipId* shipIdList = NULL;
+
+ship** collision = NULL;
+int collisionCount = 0;
+int collisionUsed;//reset each ship
 
 void createGrid(){
 	initGrid();
@@ -26,7 +27,6 @@ void createGrid(){
 }
 void initGrid(){
 	//reset allocated memory
-	collisionsUsed = 0;
 	nodesUsed = 0;
 	shipIdsUsed = 0;
 	//finds min and max
@@ -63,14 +63,6 @@ int getNode(){
 	nodesUsed++;
 	return nodesUsed-1;
 }
-int getCollision(){
-	if(collisionCount == collisionsUsed){
-		collisionCount+=10;
-		collisionList = realloc(collisionList, sizeof(collision)*collisionCount);
-	}
-	collisionsUsed++;
-	return collisionsUsed-1;
-}
 int getShipId(){
 	if(shipIdCount == shipIdsUsed){
 		shipIdCount+=10;
@@ -80,18 +72,31 @@ int getShipId(){
 	return shipIdsUsed-1;
 }
 void addShip(ship* ref, int nodeIdx){
+	collisionUsed = 0;
 	if(nodeList[nodeIdx].size == GRANULARITY){
 		int oldPtr = nodeList[nodeIdx].shipIdIdx;
 		int newPtr = getShipId();
 		nodeList[nodeIdx].shipIdIdx = newPtr;
 		shipIdList[newPtr].ref = ref;
 		shipIdList[newPtr].shipIdIdx = oldPtr;
+		int dupe = 0;//has already collided this tick
 		while(oldPtr != -1){
-			int colPtr = getCollision();
-			collisionList[colPtr][0] = ref;
-			collisionList[colPtr][1] = shipIdList[oldPtr].ref;
+			if(collisionUsed == collisionCount){
+				collisionCount+=5;
+				collision = realloc(collision, sizeof(ship*)*collisionCount);
+			}
+			for(int colIdx = 0; colIdx < collisionUsed; colIdx++){
+				if(collision[colIdx] == shipIdList[oldPtr].ref){
+					dupe = 1;
+					break;
+				}
+			}
+			if(!dupe){
+				collision[collisionUsed] = shipIdList[oldPtr].ref;
+				collisionUsed++;
+				puts("collided");
+			}
 			oldPtr = shipIdList[oldPtr].shipIdIdx;
-//			puts("collision");
 		}
 		return;
 	}

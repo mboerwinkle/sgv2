@@ -30,10 +30,6 @@ typedef struct node{
 	int size;
 	int shipIdIdx;
 }node;
-typedef ship* collision[2];
-extern int collisionCount;
-extern int collisionsUsed;
-extern collision* collisionList;
 
 extern point3d min;
 extern point3d max;
@@ -53,6 +49,5 @@ extern void showGrid(node* thisOne, int tabs);
 
 //all the get functions are like custom mallocs
 extern int getNode();
-extern int getCollision();
 extern int getShipId();
 #endif

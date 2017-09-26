@@ -21,8 +21,8 @@ void createGrid(){
 	for(int shipIdx = 0; shipIdx < shipCount; shipIdx++){
 		addShip(&(shipList[shipIdx]), 0);
 	}
-//	showGrid(&(nodeList[0]), 0);
-//	printf("---------------------------------\n");
+	showGrid(&(nodeList[0]), 0);
+	printf("---------------------------------\n");
 }
 void initGrid(){
 	//reset allocated memory

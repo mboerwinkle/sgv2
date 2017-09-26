@@ -174,10 +174,14 @@ void showGrid(node* thisOne, int tabs){
 		}
 	}
 	int shipIdIdx = thisOne->shipIdIdx;
+	int shipsInCell = 0;
 	while(shipIdIdx != -1){
-		for(int tab = 0; tab < tabs; tab++) printf("  ");
-		printf("_ship_\n");
+		shipsInCell++;
 		shipIdIdx = shipIdList[shipIdIdx].shipIdIdx;//is this enough yet? :(
+	}
+	if(shipsInCell != 0){
+		for(int tab = 0; tab < tabs; tab++) printf("  ");
+		printf(" _ships_: %d\n", shipsInCell);
 	}
 	for(int tab = 0; tab < tabs; tab++) printf("  ");
 	printf("}\n");

@@ -5,6 +5,21 @@
 
 ship* shipList = NULL;
 int shipCount = 0;
+int shipCountMax = 0;
+
+ship* spawnQueue = NULL;//FIXME have a data type for this structure
+int spawnQueueSize = 0;
+int spawnQueueCapacity = 0;
+
+void killShips(){
+	for(int shipIdx = 0; shipIdx < shipCount; shipIdx++){
+		if(shipList[shipIdx].hp <= 0){
+			free(shipList[shipIdx].myAbilities);
+			shipList[shipIdx] = shipList[shipCount-1];
+			shipCount--;
+		}
+	}
+}
 
 void tickShips(){
 	for(int shipIdx = 0; shipIdx < shipCount; shipIdx++){
@@ -17,24 +32,32 @@ void tickShips(){
 		currShip->myPosition[2]+=(currShip->speed)*(axis[2]);
 	}
 }
-
-void spawnHumanShip(int userIdx, point3d pos, quaternion rot, int type){
-	puts("spawning human ship");
-	shipList = realloc(shipList, (shipCount+1)*sizeof(ship));
-	shipList[shipCount] = copyShip(&(shipTemplates[type]), pos, rot);
-	shipList[shipCount].type = type;//FIXME this shouldnt be here. complete newship
-	shipList[shipCount].myModel = &(models[type]);
-	shipList[shipCount].ai = humanAi;
-	shipList[shipCount].myAiData.human.myuser = &(userList[userIdx]);
-	shipCount++;
+void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiData*), aiData myData){
+	if(spawnQueueSize == spawnQueueCapacity){
+		spawnQueueCapacity+=5;
+		spawnQueue = realloc(spawnQueue, spawnQueueCapacity*sizeof(ship));
+	}
+	spawnQueue[spawnQueueSize] = copyShip(&(shipTemplates[type]), pos, rot);
+	spawnQueue[spawnQueueSize].type = type;//FIXME this shouldnt be here. complete newship
+	spawnQueue[spawnQueueSize].myModel = &(models[type]);
+	spawnQueue[spawnQueueSize].ai = ai;
+	spawnQueue[spawnQueueSize].myAiData = myData;
+	spawnQueueSize++;
 }
-void spawnComputerShip(point3d pos, quaternion rot, int type){
-	shipList = realloc(shipList, (shipCount+1)*sizeof(ship));
-	shipList[shipCount] = copyShip(&(shipTemplates[type]), pos, rot);
-	shipList[shipCount].type = type;//FIXME this shouldnt be here. complete newship
-	shipList[shipCount].myModel = &(models[type]);
-	shipList[shipCount].ai = fighterAi;
+void clearSpawnQueue(){
+	for(int queueIdx = 0; queueIdx < spawnQueueSize; queueIdx++){
+		spawnShip(&(spawnQueue[queueIdx]));
+	}
+	spawnQueueSize = 0;
+}
+void spawnShip(ship* queueEntry){
+	if(shipCount == shipCountMax){
+		shipCountMax+=10;
+		shipList = realloc(shipList, shipCountMax*sizeof(ship));
+	}
+	shipList[shipCount] = *queueEntry;
 	shipCount++;
+	puts("spawned ship");
 }
 
 int getShipsWithin(ship*** output, point3d position, int distance){

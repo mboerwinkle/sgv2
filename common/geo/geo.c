@@ -39,6 +39,11 @@ void vecfNormalize(vectorf a){
 	a[2]/=val;
 }
 
+double p3dDistance(point3d a, point3d b){
+	point3d d = {a[0]-b[0], a[1]-b[1], a[2]-b[2]};
+	return sqrt(d[0]*d[0]+d[1]*d[1]+d[2]*d[2]);
+}
+
 //macrotize
 void vecEqual(vector a, vector b){
 	memcpy(a, b, sizeof(vector));

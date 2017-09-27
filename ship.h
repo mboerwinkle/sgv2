@@ -8,14 +8,22 @@
 typedef struct ship ship;
 typedef struct aiData aiData;
 
-extern ship** shipPtrList;//a shitty little data structure. should be replaced by nodes or sectors or something at some point
+extern ship* spawnQueue;
+extern int spawnQueueSize;
+extern int spawnQueueCapacity;
+
 extern ship* shipList;
+extern int shipCountMax;
 extern int shipCount;
 
 extern void tickShips();
+extern void killShips();
 extern int getShipsWithin(ship*** output, point3d position, int distance);//FIXME
-extern void spawnHumanShip(int userIdx, point3d pos, quaternion rot, int type);
-extern void spawnComputerShip(point3d pos, quaternion rot, int type);
+
+extern void clearSpawnQueue();
+extern void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiData*), aiData myData);
+extern void spawnShip(ship* queueEntry);
+
 extern ship copyShip(ship* copyTarget, point3d pos, quaternion rot);
 extern ship newShip(int hp, int maxHp, ability** myAbilities, int abilityCount, point3d myPosition, quaternion myRotation, double speed, double maxSpeed, double accel, double decel, double rollspeed, double pitchspeed, double yawspeed);
 

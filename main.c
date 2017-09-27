@@ -9,6 +9,7 @@
 #include "net/listen.h"
 
 unsigned int tickCount = 0;
+void handleHumanSpawnRequests();
 ship shipTemplates[3];//FIXME put in new function dedicated to generateing types (from file?)
 int main(){
 	loadModels("common/models/");
@@ -18,17 +19,36 @@ int main(){
 	shipTemplates[1] = newShip(100, 100, NULL, 0, start, rot, 0, 10, 1, 1, 0.1, 0.1, 0.1);
 	shipTemplates[2] = newShip(100, 100, NULL, 0, start, rot, 0, 10, 1, 1, 0.1, 0.1, 0.1);
 	setupNetworkListen();
-	point3d cs = {5000000, 5000000, 5000000};
-	quaternion cr = {1, 0, 0, 0};
-	spawnComputerShip(cs, cr, 0);
+	{
+		point3d cs = {5000000, 5000000, 5000000};
+		quaternion cr = {1, 0, 0, 0};
+		aiData dat;
+		dat.fighter.mode = -1;
+		addSpawnQueue(cs, cr, 0, fighterAi, dat);
+	} 
 	while(1){
 		delay(40);
 		sendAllUserData();
 		tickShips();
 		createGrid();
+		killShips();
+		handleHumanSpawnRequests();
+		clearSpawnQueue();
 		tickCount++;
-//		checkCollisions(shipList);
 //		tickBullets(bulletList);
 		
+	}
+}
+
+void handleHumanSpawnRequests(){
+	for(int userIdx = 0; userIdx < userCount; userIdx++){
+		if(userList[userIdx].myControls.spawn != -1){//they want the spawn
+			point3d cs = {5000000, 5000000, 5000000};
+			quaternion cr = {1, 0, 0, 0};
+			aiData dat;
+			dat.human.myuser = &(userList[userIdx]);
+			addSpawnQueue(cs, cr, 0, humanAi, dat);
+			userList[userIdx].myControls.spawn = -1;
+		}
 	}
 }

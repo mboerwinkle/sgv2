@@ -9,6 +9,13 @@
 controlMap ctls;
 int spKeyAction(SDL_Keycode key, int pressed){
 	switch(key){
+		case SDLK_r://respawn
+			if(pressed){
+				ctls.spawn = 0;
+			}else{
+				ctls.spawn = -1;
+			}
+			return 1;
 		case SDLK_w://accelerate
 			ctls.accel = pressed;
 			return 1;
@@ -93,6 +100,7 @@ int handleEvents(){
 		char msg[3+sizeof(controlMap)] = "CTL";
 		memcpy(msg+3, &ctls, sizeof(controlMap));
 		sendto(sockfd, msg, 3+sizeof(controlMap), 0, (struct sockaddr*)&sendAddr, sizeof(sendAddr));
+		ctls.spawn = -1;
 	}
 	return 0;
 }

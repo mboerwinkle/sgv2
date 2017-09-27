@@ -68,7 +68,6 @@ void startNetwork(char* ip, int port){
 	}
 	char alert[] = "joining\0";
 	sendto(sockfd, alert, sizeof(alert), 0, (struct sockaddr*)&sendAddr, sizeof(sendAddr));
-	sendto(sockfd, "SPN\0", sizeof("SPN\0"), 0, (struct sockaddr*)&sendAddr, sizeof(sendAddr));
 }
 void handleNetwork(){
 	//Don't really want something potentially large on the stack, therefore static

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include "collisionMap.h"
+#include "collisions.h"
 
 point3d min;//zeroed each tick
 point3d max;//zeroed each tick
@@ -17,13 +18,19 @@ ship** collision = NULL;
 int collisionCount = 0;
 int collisionUsed;//reset each ship
 
+
+int count = 0;
 void createGrid(){
 	initGrid();
 	for(int shipIdx = 0; shipIdx < shipCount; shipIdx++){
 		addShip(&(shipList[shipIdx]), 0);
 	}
-	showGrid(&(nodeList[0]), 0);
-	printf("---------------------------------\n");
+	count++;
+	if(count%100 == 0){
+		printf("---------------------------------\n");
+		showGrid(&(nodeList[0]), 0);
+		printf("---------------------------------\n");
+	}
 }
 void initGrid(){
 	//reset allocated memory
@@ -94,10 +101,10 @@ void addShip(ship* ref, int nodeIdx){
 			if(!dupe){
 				collision[collisionUsed] = shipIdList[oldPtr].ref;
 				collisionUsed++;
-				puts("collided");
 			}
 			oldPtr = shipIdList[oldPtr].shipIdIdx;
 		}
+		handleCollisions(ref, collision, collisionUsed);
 		return;
 	}
 	point3d p = {ref->myPosition[0]-nodeList[nodeIdx].corner[0], ref->myPosition[1]-nodeList[nodeIdx].corner[1], ref->myPosition[2]-nodeList[nodeIdx].corner[2]};

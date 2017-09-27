@@ -4,4 +4,5 @@ typedef struct controlMap{
 	double roll;//-1 - 1
 	double pitch;//-1 - 1
 	int fire;//this limits to 32 modules. doesnt really seem like a limit.
+	int spawn;//requests a new ship to be spawned attached to me.
 }controlMap;

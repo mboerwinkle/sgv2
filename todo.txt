@@ -1,4 +1,13 @@
 different ais
+spawn button
+spawn request queue
+colors
+team struct
+destroyer ai
+station ai
+auto machine gun
+render bullets
+revisit drift
 spawn queue
 lasers
 bullets

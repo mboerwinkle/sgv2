@@ -60,14 +60,6 @@ void spawnShip(ship* queueEntry){
 	puts("spawned ship");
 }
 
-int getShipsWithin(ship*** output, point3d position, int distance){
-	*output =  calloc(shipCount, sizeof(ship*));
-	for(int shipIdx = 0; shipIdx < shipCount; shipIdx++){
-		(*output)[shipIdx] = &(shipList[shipIdx]);
-	}
-	return shipCount;//FIXME inefficient
-}
-
 ship copyShip(ship* copyTarget, point3d pos, quaternion rot){
 	ship o = (*copyTarget);
 	memcpy(o.myPosition, pos, sizeof(point3d));

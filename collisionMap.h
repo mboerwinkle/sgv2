@@ -18,7 +18,7 @@ GRANULARITY is the size of the smallest cells.
 the size of the grid is "gridSize". It is (a power of 2)*GRANULARITY.
 It begins at min.
 */
-
+extern int getShipsWithin(ship*** output, point3d position, int distance);
 
 typedef struct shipId{
 	ship* ref;

@@ -1,5 +1,4 @@
 different ais
-spawn button
 spawn request queue
 colors
 team struct
@@ -8,7 +7,6 @@ station ai
 auto machine gun
 render bullets
 revisit drift
-spawn queue
 lasers
 bullets
 seeking missiles

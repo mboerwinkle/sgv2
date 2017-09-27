@@ -2,11 +2,12 @@
 #include <stdlib.h>
 
 #include "user.h"
+#include "collisionMap.h"
 #include "ship.h"
 #include "sendMessage.h"
 
 #define MAXUSERS 20
-#define VIEW_DISTANCE 100000
+#define VIEW_DISTANCE 10000
 user userList[MAXUSERS];
 int userCount = 0;
 
@@ -17,6 +18,7 @@ void createNewUser(unsigned long ip){
 	userList[userCount].addr.sin_family=AF_INET;
 	userList[userCount].addr.sin_port=htons(5999);
 	userList[userCount].addr.sin_addr.s_addr=ip;
+	userList[userCount].myControls.spawn = -1;
 	userCount++;
 	printf("added new user %ld\n", ip);
 }

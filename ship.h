@@ -18,7 +18,6 @@ extern int shipCount;
 
 extern void tickShips();
 extern void killShips();
-extern int getShipsWithin(ship*** output, point3d position, int distance);//FIXME
 
 extern void clearSpawnQueue();
 extern void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiData*), aiData myData);

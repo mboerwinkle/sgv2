@@ -28,14 +28,14 @@ int main(){
 	} 
 	while(1){
 		delay(40);
-		sendAllUserData();
-		tickShips();
-		createGrid();
-		killShips();
 		handleHumanSpawnRequests();
 		clearSpawnQueue();
-		tickCount++;
+		createGrid();
 //		tickBullets(bulletList);
+		tickShips();
+		killShips();
+		sendAllUserData();
+		tickCount++;
 		
 	}
 }

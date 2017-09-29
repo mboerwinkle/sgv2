@@ -30,7 +30,7 @@ void sendAllUserData(){
 void sendView(user* destination){
 	static char data[100000] = {'S', 'C', 'N', 0};//fixme magic number overflow
 	int dloc = 3;//next free place to write to
-	ship** draw;
+	ship** draw = NULL;
 	int quantity = getShipsWithin(&draw, destination->myPosition, VIEW_DISTANCE);
 	p3dEqual((int*)&(data[dloc]), destination->myPosition);
 	dloc+=sizeof(point3d);

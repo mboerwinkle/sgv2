@@ -17,19 +17,53 @@ shipId* shipIdList = NULL;
 ship** collision = NULL;
 int collisionCount = 0;
 int collisionUsed;//reset each ship
-
-
+//FIXME will firing off the edge of the octree break stuff?
+//FIXME current method of 
 void sphereIntersectsQuadrant(int* e, node* n, point3d c, double r);
 
 int count = 0;
-int getShipsWithin(ship*** output, point3d position, int distance){
-        *output =  calloc(shipCount, sizeof(ship*));
-        for(int shipIdx = 0; shipIdx < shipCount; shipIdx++){
-                (*output)[shipIdx] = &(shipList[shipIdx]);
-        }
-        return shipCount;//FIXME inefficient
+void getShipsInNode(ship*** output, int nodeIdx, int* returnSize){
+	if(nodeList[nodeIdx].size == GRANULARITY){
+		int sidx = nodeList[nodeIdx].shipIdIdx;
+		while(sidx != -1){
+			*returnSize = *returnSize+1;
+			*output = realloc(*output, sizeof(ship*)*(*returnSize));
+			(*output)[(*returnSize)-1] = shipIdList[sidx].ref;
+			sidx = shipIdList[sidx].shipIdIdx;
+		}
+	}else{
+		for(int i = 0; i < 8; i++){
+			if(nodeList[nodeIdx].children[i] != 0){//FIXME interim variable to avoid that long reference chain
+				getShipsInNode(output, nodeList[nodeIdx].children[i], returnSize);
+			}
+		}
+	}
 }
-
+int getShipsWithin(ship*** output, point3d position, int distance){
+	*output = NULL;
+	int nodeIdx = 0;//root
+	while(1){
+		if(nodeList[nodeIdx].size == GRANULARITY) break;
+		int e[8] = {1, 1, 1, 1, 1, 1, 1, 1};
+		sphereIntersectsQuadrant(e, &(nodeList[nodeIdx]), position, distance);
+		int intersections = e[0]+e[1]+e[2]+e[3]+e[4]+e[5]+e[6]+e[7];
+		if(intersections < 1) return 0;//outside of the grid
+		if(intersections > 1) break;
+		for(int i = 0; i < 8; i++){
+			if(e[i]){
+				if(nodeList[nodeIdx].children[i] == 0){
+					return 0;
+				}else{
+					nodeIdx = nodeList[nodeIdx].children[i];
+					break;//FIXME this is a good place to test efficiency by removing this early exit
+				}
+			}
+		}
+	}
+	int returnSize = 0;
+	getShipsInNode(output, nodeIdx, &returnSize);
+	return returnSize;
+}
 void createGrid(){
 	initGrid();
 	for(int shipIdx = 0; shipIdx < shipCount; shipIdx++){
@@ -148,7 +182,7 @@ void addShip(ship* ref, int nodeIdx){
 		}
 	}
 }
-void sphereIntersectsQuadrant(int* e, node* n, point3d c, double r){
+void sphereIntersectsQuadrant(int* e, node* n, point3d c, double r){//FIXME this algo doesnt take into account the curved edges of cubes. returns false positives.
 	point3d p = {c[0]-n->corner[0], c[1]-n->corner[1], c[2]-n->corner[2]};
 	int s = n->size;
 	if(!(p[0]+r >= 0 && p[0]-r < s/2)){//FIXME masks on a char

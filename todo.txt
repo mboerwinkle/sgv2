@@ -1,5 +1,11 @@
-different ais
+find in region
+abilities
+bullets
+polygon intersections
+fighter ai
 spawn request queue
+
+
 colors
 team struct
 destroyer ai
@@ -15,5 +21,4 @@ asteroid field
 
 BIG TOPICS:
 	ship modeling, collisions
-	ship ai
 	abilities

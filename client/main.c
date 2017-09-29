@@ -33,7 +33,7 @@ int main(int argc, char** argv){
 	}
 	initGfx();
 	while(1){
-		lerp(myRot, myRot, targRot, 0.3);
+		lerp(myRot, myRot, targRot, 0.5);
 		facing[0] = 1;
 		facing[1] = 0;
 		facing[2] = 0;

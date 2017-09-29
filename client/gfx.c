@@ -22,17 +22,8 @@
 void rotateView(){
 	gluLookAt(0,0,0,facing[0], facing[1], facing[2], upVector[0], upVector[1], upVector[2]);
 }
-void drawBullet(bullet* targ){
-	GLfloat red = 0, green = 0, blue = 0;
-	if(targ->type == 0){
-		red = 1.0;
-	}
-	point3d end;
-	for (int dim = 0; dim < 3; dim++) {//finding the end point from the vector.
-		end[dim] = targ->pos[dim]+targ->dir[dim];
-	}
-	glColor3f(red, green, blue);
-	drawLine(targ->pos, end);
+void drawBullet(networkBullet* targ){
+	
 }
 void drawLine(point3d a, point3d b){
 	glMatrixMode(GL_MODELVIEW);
@@ -103,7 +94,7 @@ void gfxFlip() {
 int has_joystick = 0;
 void initGfx() {
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
-	window = SDL_CreateWindow("Space Game - 3D edition", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 512, 512, SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow("Space Game - 3D edition", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_OPENGL);
 	if (window == NULL) {
 		fputs("SDL2 window creation failed", stderr);
 		fputs(SDL_GetError(), stderr);
@@ -121,7 +112,8 @@ void initGfx() {
 	//Edit the projection matrix
 	glMatrixMode(GL_PROJECTION);
 	//This multiplies a specially designed matrix onto the selected one
-	glFrustum(-1.0, 1.0, -1.0, 1.0, 1.0, 5000);
+//	glFrustum(-1.0, 1.0, -1.0, 1.0, 1.0, 5000);
+	gluPerspective(120, 8.0/6.0, 1, 5000);
 	//Edit the modelview matrix (The "default" matrix)
 	glMatrixMode(GL_MODELVIEW);
 	glShadeModel(GL_SMOOTH);//FIXME not anything to fix here. just mentioning that GL_SMOOTH looks hella nice.//as opposed to GL_FLAT

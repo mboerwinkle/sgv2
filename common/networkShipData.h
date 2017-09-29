@@ -9,7 +9,7 @@ typedef struct networkShipData{
 }networkShipData;//FIXME packed
 typedef struct networkBullet{
 	point3d origin;
-	char offset[3];
+	vectorf dir;
 	char type;
 }networkBullet;//FIXME packed
 #endif

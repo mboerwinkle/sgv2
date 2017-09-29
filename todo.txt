@@ -11,6 +11,6 @@ render bullets
 abilities
 asteroid field
 
-BIG TOPICS:
-	ship modeling, collisions
-	abilities
+ai multithreading (1)
+Polygon checking multithreading (3)
+bullet collision multithreading (2)

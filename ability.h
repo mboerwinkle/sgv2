@@ -13,6 +13,7 @@ typedef struct ability{
 extern void ability_Laser(ship* target);
 extern void ability_Boost(ship* target);
 extern void ability_Machinegun(ship* target);
+extern void ability_AutoAimMachinegun(ship* target);
 extern void ability_Shotgun(ship* target);
 extern void ability_Rocketlauncher(ship* target);
 extern void ability_Teleport(ship* target);

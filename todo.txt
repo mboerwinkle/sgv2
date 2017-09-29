@@ -1,21 +1,13 @@
-find in region
 abilities
 bullets
 polygon intersections
 fighter ai
 spawn request queue
 
-
-colors
+names
 team struct
 destroyer ai
-station ai
-auto machine gun
 render bullets
-revisit drift
-lasers
-bullets
-seeking missiles
 abilities
 asteroid field
 

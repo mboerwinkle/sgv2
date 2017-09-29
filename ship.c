@@ -32,7 +32,7 @@ void tickShips(){
 		currShip->myPosition[2]+=(currShip->speed)*(axis[2]);
 	}
 }
-void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiData*), aiData myData){
+void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiData*), aiData myData, char color){
 	if(spawnQueueSize == spawnQueueCapacity){
 		spawnQueueCapacity+=5;
 		spawnQueue = realloc(spawnQueue, spawnQueueCapacity*sizeof(ship));
@@ -42,6 +42,7 @@ void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiDa
 	spawnQueue[spawnQueueSize].myModel = &(models[type]);
 	spawnQueue[spawnQueueSize].ai = ai;
 	spawnQueue[spawnQueueSize].myAiData = myData;
+	spawnQueue[spawnQueueSize].color = color;
 	spawnQueueSize++;
 }
 void clearSpawnQueue(){

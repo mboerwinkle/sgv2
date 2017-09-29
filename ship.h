@@ -20,7 +20,7 @@ extern void tickShips();
 extern void killShips();
 
 extern void clearSpawnQueue();
-extern void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiData*), aiData myData);
+extern void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiData*), aiData myData, char color);
 extern void spawnShip(ship* queueEntry);
 
 extern ship copyShip(ship* copyTarget, point3d pos, quaternion rot);

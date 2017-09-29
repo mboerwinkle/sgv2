@@ -48,6 +48,16 @@ void drawLine(point3d a, point3d b){
 void drawShip(short type, point3d where, quaternion rot, char color, char* name) {
 //	point3d end = {where[0], where[1], where[2]+5};
 //	drawLine(where, end);
+	double red = 1, green = 1, blue = 1;
+	if(color == 0){
+		red = 0.5;
+		green = 0.3;
+		blue = 0.7;
+	}else if(color == 1){
+		red = 0.8;
+		green = 0.1;
+		blue = 0.2;
+	}
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	double pos[3];
@@ -71,7 +81,7 @@ void drawShip(short type, point3d where, quaternion rot, char color, char* name)
 		vector rotatedNormal = {t->vec[0], t->vec[1], t->vec[2]};
 		rotVector(rotatedNormal, rot);
 		double mult =  0.2+fabs(dot(rotatedNormal, facing))*0.8;
-		glColor3f(0.5*mult, 0.3*mult, 0.7*mult);
+		glColor3f(red*mult, green*mult, blue*mult);
 		v3f(t->p1[0], t->p1[1], t->p1[2]);
 		v3f(t->p2[0], t->p2[1], t->p2[2]);
 		v3f(t->p3[0], t->p3[1], t->p3[2]);

@@ -24,7 +24,7 @@ int main(){
 		quaternion cr = {1, 0, 0, 0};
 		aiData dat;
 		dat.fighter.mode = -1;
-		addSpawnQueue(cs, cr, 0, fighterAi, dat);
+		addSpawnQueue(cs, cr, 0, fighterAi, dat, 1);
 	} 
 	while(1){
 		delay(40);
@@ -47,7 +47,7 @@ void handleHumanSpawnRequests(){
 			quaternion cr = {1, 0, 0, 0};
 			aiData dat;
 			dat.human.myuser = &(userList[userIdx]);
-			addSpawnQueue(cs, cr, 0, humanAi, dat);
+			addSpawnQueue(cs, cr, 0, humanAi, dat, 0);
 			userList[userIdx].myControls.spawn = -1;
 		}
 	}

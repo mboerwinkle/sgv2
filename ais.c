@@ -29,14 +29,6 @@ void humanAi(ship* target, aiData* data){
 		target->speed = maxSpeed*ctl.accel;
 	}
 	//math.stackexchange.com/questions/40164/how-do-you-rotate-a-vector-by-a-unit-quaternion#40169
-/*	for(int x = 0; x < MAXMODULES; x++){
-		if(myMod[x] == NULL) continue;
-		if(ctl.fire & (1<<x)){
-			myMod[x]->tick(1);
-		}else{
-			myMod[x]->tick(0);
-		}
-	}*/
 	quaternion* rot = &(target->myRotation);
 	if(ctl.yaw != 0){
 		double angleChg = ctl.yaw*target->yawSpeed;
@@ -52,6 +44,11 @@ void humanAi(ship* target, aiData* data){
 		double angleChg = ctl.pitch*target->pitchSpeed;
 		quaternion addRot = {cos(0.5*angleChg), 0, sin(0.5*angleChg), 0};
 		quatMult(*rot, addRot, *rot);
+	}
+	for(int abiIdx = 0; abiIdx < target->abilityCount; abiIdx++){
+		int status = 0;
+		if(ctl.fire) status = 1;
+		applyAbility(&(target->myAbilities[abiIdx]), status, target);
 	}
 }
 void fighterAi(ship* target, aiData* data){

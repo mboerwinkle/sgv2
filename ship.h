@@ -7,6 +7,7 @@
 #include "common/networkShipData.h"
 typedef struct ship ship;
 typedef struct aiData aiData;
+typedef struct ability ability;
 
 extern ship* spawnQueue;
 extern int spawnQueueSize;
@@ -20,11 +21,11 @@ extern void tickShips();
 extern void killShips();
 
 extern void clearSpawnQueue();
-extern void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiData*), aiData myData, char color);
+extern void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiData*), aiData myData, char color, ability* myAbilities, int abilityCount);
 extern void spawnShip(ship* queueEntry);
 
 extern ship copyShip(ship* copyTarget, point3d pos, quaternion rot);
-extern ship newShip(int hp, int maxHp, ability** myAbilities, int abilityCount, point3d myPosition, quaternion myRotation, double speed, double maxSpeed, double accel, double decel, double rollspeed, double pitchspeed, double yawspeed);
+extern ship newShip(int hp, int maxHp, ability* myAbilities, int abilityCount, point3d myPosition, quaternion myRotation, double speed, double maxSpeed, double accel, double decel, double rollspeed, double pitchspeed, double yawspeed);
 
 extern void humanAi(ship*, aiData*);
 extern void fighterAi(ship*, aiData*);
@@ -53,7 +54,7 @@ typedef struct aiData{
 typedef struct ship{
 	int hp;
 	int maxHp;
-	ability** myAbilities;
+	ability* myAbilities;
 	int abilityCount;
 	point3d myPosition;
 	quaternion myRotation;

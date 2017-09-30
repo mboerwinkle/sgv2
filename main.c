@@ -24,7 +24,7 @@ int main(){
 		quaternion cr = {1, 0, 0, 0};
 		aiData dat;
 		dat.fighter.mode = -1;
-		addSpawnQueue(cs, cr, 0, fighterAi, dat, 1);
+		addSpawnQueue(cs, cr, 0, fighterAi, dat, 1, NULL, 0);
 	} 
 	while(1){
 		delay(40);
@@ -47,8 +47,13 @@ void handleHumanSpawnRequests(){
 			quaternion cr = {1, 0, 0, 0};
 			aiData dat;
 			dat.human.myuser = &(userList[userIdx]);
-			addSpawnQueue(cs, cr, 0, humanAi, dat, 0);
+			ability* myAbilities = calloc(1, sizeof(ability));
+			myAbilities[0].act = ability_Machinegun;
+			myAbilities[0].max = 20;
+			myAbilities[0].cooldown = 20;
+			addSpawnQueue(cs, cr, 0, humanAi, dat, 0, myAbilities, 1);
 			userList[userIdx].myControls.spawn = -1;
+			
 		}
 	}
 }

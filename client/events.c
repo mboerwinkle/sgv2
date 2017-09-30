@@ -72,12 +72,17 @@ int spJoyAxis(Uint8 axis, Sint16 value){
 	}
 }
 
-int spJoyButton(Uint8 button){
+int spJoyButton(Uint8 button, int value){
 	if(button == 8){
 		puts("spawning");
-		ctls.spawn = 0;
+		if(value){
+			ctls.spawn = 0;
+			return 1;
+		}else ctls.spawn = -1;
+	}else if(button == 5){
+		ctls.fire = value;
 		return 1;
-	}
+	}else printf("unknown button %d\n", button);
 	return 0;
 }
 
@@ -97,10 +102,8 @@ int handleEvents(){
 		else if(evnt.type == SDL_JOYAXISMOTION){
 			if(spJoyAxis(evnt.jaxis.axis, evnt.jaxis.value)) send = 1;
 		}
-		else if(evnt.type == SDL_JOYBUTTONDOWN){
-			if(spJoyButton(evnt.jbutton.button)) send = 1;
-		}
-		else if(evnt.type == SDL_CONTROLLERBUTTONUP){
+		else if(evnt.type == SDL_JOYBUTTONDOWN || evnt.type == SDL_JOYBUTTONUP){
+			if(spJoyButton(evnt.jbutton.button, evnt.jbutton.state)) send = 1;
 		}
 	}
 	if(send){

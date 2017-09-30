@@ -4,12 +4,13 @@ polygon intersections
 fighter ai
 spawn request queue
 
+smooth view shifting
 names
 team struct
 destroyer ai
-render bullets
 abilities
 asteroid field
+stamina/boost
 
 ai multithreading (1)
 Polygon checking multithreading (3)

@@ -32,7 +32,7 @@ void tickShips(){
 		currShip->myPosition[2]+=(currShip->speed)*(axis[2]);
 	}
 }
-void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiData*), aiData myData, char color){
+void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiData*), aiData myData, char color, ability* myAbilities, int abilityCount){
 	if(spawnQueueSize == spawnQueueCapacity){
 		spawnQueueCapacity+=5;
 		spawnQueue = realloc(spawnQueue, spawnQueueCapacity*sizeof(ship));
@@ -43,6 +43,8 @@ void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiDa
 	spawnQueue[spawnQueueSize].ai = ai;
 	spawnQueue[spawnQueueSize].myAiData = myData;
 	spawnQueue[spawnQueueSize].color = color;
+	spawnQueue[spawnQueueSize].myAbilities = myAbilities;
+	spawnQueue[spawnQueueSize].abilityCount = abilityCount;
 	spawnQueueSize++;
 }
 void clearSpawnQueue(){
@@ -68,7 +70,7 @@ ship copyShip(ship* copyTarget, point3d pos, quaternion rot){
 	return o;
 };
 
-ship newShip(int hp, int maxHp, ability** myAbilities, int abilityCount, point3d myPosition, quaternion myRotation, double speed, double maxSpeed, double accel, double decel, double rollspeed, double pitchspeed, double yawspeed){
+ship newShip(int hp, int maxHp, ability* myAbilities, int abilityCount, point3d myPosition, quaternion myRotation, double speed, double maxSpeed, double accel, double decel, double rollspeed, double pitchspeed, double yawspeed){
 	ship o;
 	o.hp = hp;
 	o.maxHp = maxHp;

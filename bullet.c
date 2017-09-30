@@ -12,11 +12,16 @@ void tickBullets(){
 			b->myPos[dim]+=b->myVector[dim];
 		}
 		//collide
+		bulletList[bIdx].lifetime -= 1;
+		if(bulletList[bIdx].lifetime <= 0){
+			bulletList[bIdx] = bulletList[bulletCount-1];
+			bulletCount--;
+			bIdx--;
+		}
 	}
 }
 
 void newBullet(char type, point3d pos, vector dir){
-	puts("making bullet");
 	if(bulletCountMax == bulletCount){
 		bulletCountMax+=20;
 		bulletList = realloc(bulletList, sizeof(bullet)*bulletCountMax);

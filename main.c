@@ -49,8 +49,8 @@ void handleHumanSpawnRequests(){
 			dat.human.myuser = &(userList[userIdx]);
 			ability* myAbilities = calloc(1, sizeof(ability));
 			myAbilities[0].act = ability_Machinegun;
-			myAbilities[0].max = 20;
-			myAbilities[0].cooldown = 20;
+			myAbilities[0].max = 2;
+			myAbilities[0].cooldown = 2;
 			addSpawnQueue(cs, cr, 0, humanAi, dat, 0, myAbilities, 1);
 			userList[userIdx].myControls.spawn = -1;
 			

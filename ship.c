@@ -17,6 +17,7 @@ void killShips(){
 			free(shipList[shipIdx].myAbilities);
 			shipList[shipIdx] = shipList[shipCount-1];
 			shipCount--;
+			shipIdx--;
 		}
 	}
 }

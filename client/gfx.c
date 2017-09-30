@@ -60,13 +60,13 @@ void drawShip(short type, point3d where, quaternion rot, char color, char* name)
 		blue = 0.2;
 	}
 
-
+/*
 		glColor3f(1, 1, 1);
 		vector lineDir = {1, 0, 0};
 		rotVector(lineDir, rot);
 		point3d end = {where[0]+lineDir[0]*5000, where[1]+lineDir[1]*5000, where[2]+lineDir[2]*5000};
 		drawLine(where, end);
-
+*/
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();

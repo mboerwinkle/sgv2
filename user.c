@@ -5,6 +5,7 @@
 #include "collisionMap.h"
 #include "ship.h"
 #include "sendMessage.h"
+#include "bullet.h"
 
 #define MAXUSERS 20
 #define VIEW_DISTANCE 10000
@@ -42,9 +43,19 @@ void sendView(user* destination){
 		*(networkShipData*)&(data[dloc]) = getNetworkShipData(draw[shipIdx]);
 		dloc+=sizeof(networkShipData);
 	}
+	free(draw);
+	int* netBulletCount = (int*)&(data[dloc]);
+	*netBulletCount = 0;
+	dloc+=sizeof(int);
+	for(int bIdx = 0; bIdx < bulletCount; bIdx++){
+		if(p3dDistance(bulletList[bIdx].myPos, destination->myPosition) < VIEW_DISTANCE){//FIXME should have some sort of optimization (octree)
+			*(networkBullet*)&(data[dloc]) = getBulletNetworkData(&(bulletList[bIdx]));
+			(*netBulletCount) = (*netBulletCount)+1;
+			dloc+=sizeof(networkBullet);
+		}
+	}
 	strcpy(&(data[dloc]), "END\0");
 	dloc+=4;
-	free(draw);
 	sendMessage(&(destination->addr), data, dloc);
 }
 //FIXME take in a networkShipData ptr to write to

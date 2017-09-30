@@ -31,8 +31,8 @@ int main(){
 		handleHumanSpawnRequests();
 		clearSpawnQueue();
 		createGrid();
-//		tickBullets(bulletList);
 		tickShips();
+		tickBullets();
 		killShips();
 		sendAllUserData();
 		tickCount++;

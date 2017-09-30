@@ -60,11 +60,11 @@ void messageParse(){
 			dataUsed+=sizeof(networkShipData);
 			drawShip(thisShip.type, thisShip.myPosition, thisShip.myRotation, thisShip.color, thisShip.name);
 		}
-		//int gfxCount = *((int*)(data+dataUsed)); dataUsed+=sizeof(int);
-		//for(int temp = 0; temp < gfxCount; temp++){
-		//	drawBullet((networkBullet*)(data+dataUsed));
-	//		dataUsed+=sizeof(networkBullet);
-	//	}
+		int gfxCount = *((int*)(data+dataUsed)); dataUsed+=sizeof(int);
+		for(int temp = 0; temp < gfxCount; temp++){
+			drawBullet((networkBullet*)(data+dataUsed));
+			dataUsed+=sizeof(networkBullet);
+		}
 		gfxFlip();
 	}
 }

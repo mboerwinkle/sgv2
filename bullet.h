@@ -12,8 +12,10 @@ typedef struct bullet{
 	char type;
 }bullet;
 
-extern bullet** bulletList;
+extern bullet* bulletList;
+extern int bulletCountMax;
 extern int bulletCount;
+void tickBullets();
 void newBullet(char type, point3d pos, vector dir);
 networkBullet getBulletNetworkData(bullet* target);
 

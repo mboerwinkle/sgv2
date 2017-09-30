@@ -7,6 +7,8 @@
 #include "def.h"
 #include "../common/controlMap.h"
 controlMap ctls;
+int weapSel = 1;
+
 int spKeyAction(SDL_Keycode key, int pressed){
 	switch(key){
 		case SDLK_r://respawn
@@ -67,6 +69,12 @@ int spJoyAxis(Uint8 axis, Sint16 value){
 		case 3:
 			ctls.yaw = value/(CONTROLLERAXISMAX-DEADZONE);
 			return 1;
+		case 5:
+			if(value > (CONTROLLERAXISMAX-DEADZONE)/2){
+				ctls.fire = weapSel;
+			}else{
+				ctls.fire = -1;
+			}
 		default:
 			return 0;
 	}
@@ -79,9 +87,12 @@ int spJoyButton(Uint8 button, int value){
 			ctls.spawn = 0;
 			return 1;
 		}else ctls.spawn = -1;
+	}else if(button == 4){
+		if(!value) return 0;
+		weapSel--;
 	}else if(button == 5){
-		ctls.fire = value;
-		return 1;
+		if(!value) return 0;//FIXME inelegant
+		weapSel++;
 	}else printf("unknown button %d\n", button);
 	return 0;
 }

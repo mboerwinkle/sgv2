@@ -1,5 +1,3 @@
-abilities
-bullets
 polygon intersections
 fighter ai
 spawn request queue
@@ -8,9 +6,10 @@ smooth view shifting
 names
 team struct
 destroyer ai
-abilities
 asteroid field
 stamina/boost
+have distance function check for overflow
+show which functions take up the most cpu time on server
 
 ai multithreading (1)
 Polygon checking multithreading (3)

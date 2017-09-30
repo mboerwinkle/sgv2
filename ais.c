@@ -47,7 +47,7 @@ void humanAi(ship* target, aiData* data){
 	}
 	for(int abiIdx = 0; abiIdx < target->abilityCount; abiIdx++){
 		int status = 0;
-		if(ctl.fire) status = 1;
+		if(ctl.fire != -1 && ctl.fire%target->abilityCount == abiIdx) status = 1;//FIXME INelegant
 		applyAbility(&(target->myAbilities[abiIdx]), status, target);
 	}
 }

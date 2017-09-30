@@ -48,26 +48,24 @@ int spKeyAction(SDL_Keycode key, int pressed){
 	}
 }
 int spJoyAxis(Uint8 axis, Sint16 value){
+	if(abs(value) > DEADZONE){
+		if(value < 0) value+=DEADZONE;
+		else value-=DEADZONE;
+	}else{
+		value = 0;
+	}
 	switch(axis){
 		case 0:
-			if(abs(value) < DEADZONE){
-				ctls.roll = 0;
-			}else ctls.roll = -value/CONTROLLERAXISMAX;
+			ctls.roll = -value/(CONTROLLERAXISMAX-DEADZONE);
 			return 1;
 		case 1:
-			if(abs(value) < DEADZONE){
-				ctls.accel = 0;
-			}else ctls.accel = -value/CONTROLLERAXISMAX;
+			ctls.accel = -value/(CONTROLLERAXISMAX-DEADZONE);
 			return 1;
 		case 4:
-			if(abs(value) < DEADZONE){
-				ctls.pitch = 0;
-			}else ctls.pitch = -value/CONTROLLERAXISMAX;
+			ctls.pitch = -value/(CONTROLLERAXISMAX-DEADZONE);
 			return 1;
 		case 3:
-			if(abs(value) < DEADZONE){
-				ctls.yaw = 0;
-			}else ctls.yaw = value/CONTROLLERAXISMAX;
+			ctls.yaw = value/(CONTROLLERAXISMAX-DEADZONE);
 			return 1;
 		default:
 			return 0;

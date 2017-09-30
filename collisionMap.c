@@ -76,7 +76,7 @@ void createGrid(){
 		printf("---------------------------------\n");
 	}
 }
-void initGrid(){
+void initGrid(){//FIXME undefined behavior if no ships
 	//reset allocated memory
 	nodesUsed = 0;
 	shipIdsUsed = 0;
@@ -92,17 +92,17 @@ void initGrid(){
 			if(p[dim] < min[dim]) min[dim] = p[dim];
 			if(p[dim] > max[dim]) max[dim] = p[dim];
 		}
-//		printf("min %d %d %d\nmax %d %d %d\n", min[0], min[1], min[2], max[0], max[1], max[2]);
-		int mindif = max[2]-min[2];
-		for(int dim = 0; dim < 2; dim++){
-			if(max[dim]-min[dim] > mindif) mindif = max[dim]-min[dim];
-		}
-		gridSize = GRANULARITY;
-		while(gridSize < mindif) gridSize*=2;//bitshift?
-		getNode();//idx 0
-		nodeList[0].size = gridSize;
-		p3dEqual(nodeList[0].corner, min);
 	}
+//	printf("min %d %d %d\nmax %d %d %d\n", min[0], min[1], min[2], max[0], max[1], max[2]);
+	int mindif = max[2]-min[2];
+	for(int dim = 0; dim < 2; dim++){
+		if(max[dim]-min[dim] > mindif) mindif = max[dim]-min[dim];
+	}
+	gridSize = GRANULARITY;
+	while(gridSize < mindif) gridSize*=2;//bitshift?
+	getNode();//idx 0
+	nodeList[0].size = gridSize;
+	p3dEqual(nodeList[0].corner, min);
 }
 int getNode(){
 	if(nodeCount == nodesUsed){
@@ -243,4 +243,5 @@ void showGrid(node* thisOne, int tabs){
 	}
 	for(int tab = 0; tab < tabs; tab++) printf("  ");
 	printf("}\n");
+	printf("%d ships\n%d nodes\n", shipCount, nodesUsed);
 }

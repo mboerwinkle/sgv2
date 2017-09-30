@@ -11,7 +11,7 @@ void humanAi(ship* target, aiData* data){
 	vector pointer = {-0.866, 0, 0.5};
 	pointer[1]-=ctl.yaw;
 	pointer[2]+=ctl.pitch;
-	vecNormalize(pointer);
+	vecNormalize(pointer);//FIXME need interpolated side to side camera movement first
 	rotVector(pointer, me->myRotation);
 	me->myPosition[0] += 1.5*target->myModel->radius*pointer[0];//fixme clean
 	me->myPosition[1] += 1.5*target->myModel->radius*pointer[1];

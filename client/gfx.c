@@ -23,7 +23,19 @@ void rotateView(){
 	gluLookAt(0,0,0,facing[0], facing[1], facing[2], upVector[0], upVector[1], upVector[2]);
 }
 void drawBullet(networkBullet* targ){
-	
+	double red, green, blue;
+	int* origin = targ->origin;
+	float* dir = targ->dir;
+	if(targ->type == 0){//bullets
+		red = 1;
+		green = 0.7;
+		blue = 0;
+	}else{
+		puts("unknown bullet type");
+	}
+	glColor3f(red, green, blue);
+	point3d end = {origin[0]+dir[0], origin[1]+dir[1], origin[2]+dir[2]};
+	drawLine(origin, end);
 }
 void drawLine(point3d a, point3d b){
 	glMatrixMode(GL_MODELVIEW);
@@ -37,8 +49,6 @@ void drawLine(point3d a, point3d b){
 	glPopMatrix();
 }
 void drawShip(short type, point3d where, quaternion rot, char color, char* name) {
-//	point3d end = {where[0], where[1], where[2]+5};
-//	drawLine(where, end);
 	double red = 1, green = 1, blue = 1;
 	if(color == 0){
 		red = 0.5;
@@ -49,6 +59,15 @@ void drawShip(short type, point3d where, quaternion rot, char color, char* name)
 		green = 0.1;
 		blue = 0.2;
 	}
+
+
+		glColor3f(1, 1, 1);
+		vector lineDir = {1, 0, 0};
+		rotVector(lineDir, rot);
+		point3d end = {where[0]+lineDir[0]*5000, where[1]+lineDir[1]*5000, where[2]+lineDir[2]*5000};
+		drawLine(where, end);
+
+
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	double pos[3];

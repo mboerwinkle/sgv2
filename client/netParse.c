@@ -55,20 +55,16 @@ void messageParse(){
 		quatEqual(targRot, (double*)(data+dataUsed)); dataUsed+=sizeof(quaternion);
 		int shipsUsed = *((int*)(data+dataUsed)); dataUsed+=sizeof(int);
 		gfxClear();
-//		for(int temp = 0; temp < 3; temp++){
-//			myPos[temp] += cam[temp];
-//		}
 		for(int shipCount = 0; shipCount < shipsUsed; shipCount++){
 			networkShipData thisShip = *(networkShipData*)(data+dataUsed);
 			dataUsed+=sizeof(networkShipData);
 			drawShip(thisShip.type, thisShip.myPosition, thisShip.myRotation, thisShip.color, thisShip.name);
 		}
-//		short gfxCount = *((short*)(data+dataUsed)); dataUsed+=sizeof(short);
-//		drawable thisDrawable;
-//		for(int temp = 0; temp < gfxCount; temp++){
-//			memcpy(&thisDrawable, data+dataUsed+temp*sizeof(drawable), sizeof(drawable));
-//			drawDrawable(thisDrawable);
-//		}
+		//int gfxCount = *((int*)(data+dataUsed)); dataUsed+=sizeof(int);
+		//for(int temp = 0; temp < gfxCount; temp++){
+		//	drawBullet((networkBullet*)(data+dataUsed));
+	//		dataUsed+=sizeof(networkBullet);
+	//	}
 		gfxFlip();
 	}
 }

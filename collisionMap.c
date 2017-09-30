@@ -243,5 +243,5 @@ void showGrid(node* thisOne, int tabs){
 	}
 	for(int tab = 0; tab < tabs; tab++) printf("  ");
 	printf("}\n");
-	printf("%d ships\n%d nodes\n", shipCount, nodesUsed);
+	if(tabs == 0) printf("%d ships\n%d nodes\n", shipCount, nodesUsed);
 }

@@ -72,6 +72,15 @@ int spJoyAxis(Uint8 axis, Sint16 value){
 	}
 }
 
+int spJoyButton(Uint8 button){
+	if(button == 8){
+		puts("spawning");
+		ctls.spawn = 0;
+		return 1;
+	}
+	return 0;
+}
+
 int handleEvents(){
 	int send = 0;//if controls need to be sent
 	static SDL_Event evnt;
@@ -88,7 +97,8 @@ int handleEvents(){
 		else if(evnt.type == SDL_JOYAXISMOTION){
 			if(spJoyAxis(evnt.jaxis.axis, evnt.jaxis.value)) send = 1;
 		}
-		else if(evnt.type == SDL_CONTROLLERBUTTONDOWN){
+		else if(evnt.type == SDL_JOYBUTTONDOWN){
+			if(spJoyButton(evnt.jbutton.button)) send = 1;
 		}
 		else if(evnt.type == SDL_CONTROLLERBUTTONUP){
 		}

@@ -3,7 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include "geo.h"
-
+/*
 void cross(vector a, vector b, vector save){
 	vector ret;
 	ret[0] = a[1]*b[2]-a[2]*b[1];
@@ -25,7 +25,7 @@ double dot(vector a, vector b){
 double dotf(vectorf a, vectorf b){
 	return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
 }
-
+*/
 void vecNormalize(vector a){
 	double val = vecLen(a);
 	a[0]/=val;

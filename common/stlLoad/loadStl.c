@@ -58,7 +58,8 @@ void triNormal(struct tri* t){
 	vectorf a = {t->p1[0]-t->p2[0], t->p1[1]-t->p2[1], t->p1[2]-t->p2[2]};
 	vectorf b = {t->p2[0]-t->p3[0], t->p2[1]-t->p3[1], t->p2[2]-t->p3[2]};
 	vectorf normal;
-	crossf(a, b, normal);
+	//crossf(a, b, normal);
+	CROSS(a, b, normal);
 	vecfNormalize(normal);
 	t->vec[0] = normal[0];
 	t->vec[1] = normal[1];

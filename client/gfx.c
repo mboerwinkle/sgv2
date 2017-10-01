@@ -90,7 +90,7 @@ void drawShip(short type, point3d where, quaternion rot, char color, char* name)
 		struct tri* t = &(models[type].triangles[idx]);
 		vector rotatedNormal = {t->vec[0], t->vec[1], t->vec[2]};
 		rotVector(rotatedNormal, rot);
-		double mult =  0.2+fabs(dot(rotatedNormal, facing))*0.8;
+		double mult =  0.2+fabs(DOT(rotatedNormal, facing))*0.8;
 		glColor3f(red*mult, green*mult, blue*mult);
 		v3f(t->p1[0], t->p1[1], t->p1[2]);
 		v3f(t->p2[0], t->p2[1], t->p2[2]);

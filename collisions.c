@@ -78,13 +78,13 @@ int intersect_triangle(vectorf l1, vectorf l2, vectorf vert0, vectorf vert1, vec
 	/* begin calculating determinant - also used to calculate U parameter */
 
 //	CROSS(pvec, dir, edge2);
-	crossf(dir, edge2, pvec);
+	//crossf(dir, edge2, pvec);
+	CROSS(dir, edge2, pvec);
 
 	/* if determinant is near zero, ray lies in plane of triangle */
 
-//	det = DOT(edge1, pvec);
-	det = dotf(edge1, pvec);
-
+	det = DOT(edge1, pvec);
+	//det = dotf(edge1, pvec);
 	/* the non-culling branch */
 	if (det > -EPSILON && det < EPSILON) return 0;
 	inv_det = 1.0 / det;
@@ -94,19 +94,20 @@ int intersect_triangle(vectorf l1, vectorf l2, vectorf vert0, vectorf vert1, vec
 		tvec[dim] = l1[dim]-vert0[dim];
 	}
 	/* calculate U parameter and test bounds */
-//	u = DOT(tvec, pvec) * inv_det;
-	u = dotf(tvec, pvec) * inv_det;
+	u = DOT(tvec, pvec) * inv_det;
+//	u = dotf(tvec, pvec) * inv_det;
 	if (u < 0.0 || u > 1.0) return 0;
 	/* prepare to test V parameter */
 //	CROSS(qvec, tvec, edge1);
-	crossf(tvec, edge1, qvec);
+	//crossf(tvec, edge1, qvec);
+	CROSS(tvec, edge1, qvec);
 	/* calculate V parameter and test bounds */
-	//v = DOT(dir, qvec) * inv_det;
-	v = dotf(dir, qvec) * inv_det;
+	v = DOT(dir, qvec) * inv_det;
+//	v = dotf(dir, qvec) * inv_det;
 	if (v < 0.0 || u + v > 1.0) return 0;
 	/* calculate t, ray intersects triangle */
-//	t = DOT(edge2, qvec) * inv_det;
-	t = dotf(edge2, qvec) * inv_det;
+	t = DOT(edge2, qvec) * inv_det;
+	//t = dotf(edge2, qvec) * inv_det;
 	if(t > 1 || t <0) return 0;
 	return 1;
 }

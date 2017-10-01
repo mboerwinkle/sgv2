@@ -14,7 +14,7 @@ void handleCollisions(ship* ref, ship** col, int colCount){
 //		p3dEqual(pos2, col[idx]->myPosition);
 //FIXME		double rad2 = col[idx]->myModel->radius;
 		if(modelCollide(ref->myModel, ref->myPosition, ref->myRotation, col[idx]->myModel, col[idx]->myPosition, col[idx]->myRotation)){
-			puts("collided ships");
+//			puts("collided ships");
 		}
 	}
 }

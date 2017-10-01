@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "collisionMap.h"
 #include "bullet.h"
 #include "ship.h"
@@ -12,6 +13,7 @@ unsigned int tickCount = 0;
 void handleHumanSpawnRequests();
 ship shipTemplates[3];//FIXME put in new function dedicated to generateing types (from file?)
 int main(){
+	srandom(time(NULL));
 	loadModels("common/models/");
 	point3d start = {0, 0, 0};
 	quaternion rot = {1, 0, 0, 0};

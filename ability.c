@@ -15,7 +15,11 @@ void applyAbility(ability* targ, int fire, ship* myShip){
 }
 
 void ability_Machinegun(ship* target){
-	vector dir = {1, 0, 0};
+	vector dir = {5000, 0, 0};
+	int rint = random();
+	dir[1] = ((short*)(&rint))[0]%500;
+	dir[2] = ((short*)(&rint))[1]%500;
+	vecNormalize(dir);
 	rotVector(dir, target->myRotation);
 	dir[0]*=500;
 	dir[1]*=500;

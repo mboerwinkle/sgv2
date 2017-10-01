@@ -28,5 +28,6 @@ extern void lerp(quaternion ret, quaternion one, quaternion two, double t);
 extern double quatLen(quaternion r);
 extern void quatNormalize(quaternion r);
 extern void rotVector(vector vec, quaternion rot);
+extern void rotfVector(vectorf vec, quaternion rot, vectorf output);
 extern void generateRotationMatrix(quaternion rot, double *M);
 #endif

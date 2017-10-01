@@ -1,5 +1,5 @@
 3
-alienCarrier.stl
 ship1.stl
+alienCarrier.stl
 tieInterceptorHIPOLY.stl
 tieInterceptor.stl

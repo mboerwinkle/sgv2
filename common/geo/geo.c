@@ -102,6 +102,15 @@ void rotVector(vector vec, quaternion rot){
 	vec[1] = pureVec[2];
 	vec[2] = pureVec[3];
 }
+void rotfVector(vectorf vec, quaternion rot, vectorf output){
+	quaternion pureVec = {0, vec[0], vec[1], vec[2]};
+	quaternion revRot = {rot[0], -rot[1], -rot[2], -rot[3]};
+	quatMult(rot, pureVec, pureVec);
+	quatMult(pureVec, revRot, pureVec);
+	output[0] = pureVec[1];
+	output[1] = pureVec[2];
+	output[2] = pureVec[3];
+}
 /*
 M[0]  M[4]  M[8]  M[12]
 M[1]  M[5]  M[9]  M[13]

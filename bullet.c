@@ -1,9 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "ship.h"
+#include "collisionMap.h"
 #include "bullet.h"
 bullet* bulletList = NULL;
 int bulletCountMax;
 int bulletCount;
+
+int bulletIntersectsShip(bullet* b, ship* s){
+	return 0;
+}
 
 void tickBullets(){
 	for(int bIdx = 0; bIdx < bulletCount; bIdx++){
@@ -11,7 +17,16 @@ void tickBullets(){
 		for(int dim = 0; dim < 3; dim++){
 			b->myPos[dim]+=b->myVector[dim];
 		}
-		//collide
+		
+		ship** draw = NULL;
+		int quantity = getShipsWithin(&draw, b->myPos, vecLen(b->myVector));
+		for(int sidx = 0; sidx < quantity; sidx++){
+			if(bulletIntersectsShip(b, draw[sidx])){
+				draw[sidx]->hp-=b->damage;
+			}
+		}
+		free(draw);
+
 		bulletList[bIdx].lifetime -= 1;
 		if(bulletList[bIdx].lifetime <= 0){
 			bulletList[bIdx] = bulletList[bulletCount-1];

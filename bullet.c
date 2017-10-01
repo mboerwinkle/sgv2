@@ -19,7 +19,7 @@ void tickBullets(){
 		}
 		
 		ship** draw = NULL;
-		int quantity = getShipsWithin(&draw, b->myPos, vecLen(b->myVector));
+		int quantity = getShipsWithin(&draw, b->myPos, VECLEN(b->myVector));
 		for(int sidx = 0; sidx < quantity; sidx++){
 			if(bulletIntersectsShip(b, draw[sidx])){
 				draw[sidx]->hp-=b->damage;

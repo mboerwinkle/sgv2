@@ -42,11 +42,11 @@ void loadModel(char* dest, model* target){
 	//find radius
 	target->radius = 0;
 	for(int triIdx = 0; triIdx < target->triangleCount; triIdx++){
-		double newRadius = vecfLen(target->triangles[triIdx].p1);
+		double newRadius = VECLEN(target->triangles[triIdx].p1);
 		if(newRadius > target->radius) target->radius = newRadius;
-		newRadius = vecfLen(target->triangles[triIdx].p2);
+		newRadius = VECLEN(target->triangles[triIdx].p2);
 		if(newRadius > target->radius) target->radius = newRadius;
-		newRadius = vecfLen(target->triangles[triIdx].p3);
+		newRadius = VECLEN(target->triangles[triIdx].p3);
 		if(newRadius > target->radius) target->radius = newRadius;
 
 		triNormal(&(target->triangles[triIdx]));

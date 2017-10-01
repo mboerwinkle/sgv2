@@ -27,13 +27,13 @@ double dotf(vectorf a, vectorf b){
 }
 */
 void vecNormalize(vector a){
-	double val = vecLen(a);
+	double val = VECLEN(a);
 	a[0]/=val;
 	a[1]/=val;
 	a[2]/=val;
 }
 void vecfNormalize(vectorf a){
-	double val = vecfLen(a);
+	double val = VECLEN(a);
 	a[0]/=val;
 	a[1]/=val;
 	a[2]/=val;
@@ -58,14 +58,14 @@ void quatEqual(quaternion a, quaternion b){
 	memcpy(a, b, sizeof(quaternion));
 }
 
-//FIXME macrotize
+/*
 double vecLen(vector a){
 	return sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
 }
 double vecfLen(vectorf a){
 	return sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
 }
-
+*/
 //append a to b and save to save
 void quatMult(double* a, double* b, double* save){
 	quaternion newTarg;//fixme dont have save. instead return an array
@@ -103,7 +103,7 @@ void rotVector(vector vec, quaternion rot){//FIXME adopt the behavior of rotfVec
 	vec[2] = pureVec[3];
 }
 void rotfVector(vectorf vec, quaternion rot, vectorf output){
-	double mag = vecfLen(vec);
+	double mag = VECLEN(vec);
 	quaternion pureVec = {0, vec[0]/mag, vec[1]/mag, vec[2]/mag};
 	quaternion revRot = {rot[0], -rot[1], -rot[2], -rot[3]};
 	quatMult(rot, pureVec, pureVec);

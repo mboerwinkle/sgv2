@@ -46,6 +46,7 @@ int modelCollide(model* a, point3d pa, quaternion ra, model* b, point3d pb, quat
 	return 0;
 }
 int trianglesIntersect(struct tri a, struct tri b){
+	printf("%f %f %f  %f %f %f  %f %f %f\n%f %f %f  %f %f %f  %f %f %f\n\n", a.p1[0], a.p1[1], a.p1[2], a.p2[0], a.p2[1], a.p2[2], a.p3[0], a.p3[1], a.p3[2], b.p1[0], b.p1[1], b.p1[2], b.p2[0], b.p2[1], b.p2[2], b.p3[0], b.p3[1], b.p3[2]);
 	if(intersect_triangle(a.p1, a.p2, b.p1, b.p2, b.p3) ||
 	intersect_triangle(a.p2, a.p3, b.p1, b.p2, b.p3) ||
 	intersect_triangle(a.p3, a.p1, b.p1, b.p2, b.p3) ||
@@ -56,7 +57,7 @@ int trianglesIntersect(struct tri a, struct tri b){
 	}
 	return 0;
 }
-#define EPSILON 0.0001
+#define EPSILON 0.00001
 int intersect_triangle(vectorf l1, vectorf l2, vectorf vert0, vectorf vert1, vectorf vert2){//credit Tomas Moller and Ben Trumbore "Fast, minimum storage ray/triangle intersection"
 	float dir[3];//FIXME these should all be doubles
 	dir[0] = l2[0]-l1[0];//FIXME copy the macros from RELIGN

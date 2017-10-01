@@ -1,5 +1,6 @@
 3
 ship1.stl
+test.stl
 alienCarrier.stl
 tieInterceptorHIPOLY.stl
 tieInterceptor.stl

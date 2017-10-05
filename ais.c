@@ -53,14 +53,29 @@ void humanAi(ship* target, aiData* data){
 }
 void turn(ship* target, double y, double z, double* pitch, double* roll, double* yaw){//This takes a vector giving a direction of desired motion and controls the ship. It figures out if yaw or pitch is better suited, then rolls to make it even better. Technically it is better to roll to a corner then use yaw and pitch. But we're not doing that.
 	if(y == 0 && z == 0) return;
+	int bias = 1;//1 for pitch turn, -1 for yaw turn. Kind of arbitrary, but it helps keep the roll code from having too much duplication
 	if(fabs(y) > fabs(z)){//Yaw turn
+		bias = -1;
 		if(y > 0){
+			*yaw = -1;
 		}else{
+			*yaw = 1;
 		}
+		if(y*z == 0){
+			return;
 	}else{//Pitch turn
 		if(z > 0){
+			*pitch = -1;
 		}else{
+			*pitch = 1;
 		}
+	}
+	//roll code
+	if(y == 0 || z == 0) return;//no need for a roll
+	if(y*z*bias < 0){//Which way you need to roll alternates by quadrant and by which type of turn you are executing.
+		*roll = -1;
+	}
+		*roll = 1;
 	}
 }
 void fighterAi(ship* target, aiData* data){

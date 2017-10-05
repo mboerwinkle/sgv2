@@ -51,7 +51,39 @@ void humanAi(ship* target, aiData* data){
 		applyAbility(&(target->myAbilities[abiIdx]), status, target);
 	}
 }
+void turn(ship* target, double y, double z, double* pitch, double* roll, double* yaw){//This takes a vector giving a direction of desired motion and controls the ship. It figures out if yaw or pitch is better suited, then rolls to make it even better. Technically it is better to roll to a corner then use yaw and pitch. But we're not doing that.
+	if(y == 0 && z == 0) return;
+	if(fabs(y) > fabs(z)){//Yaw turn
+		if(y > 0){
+		}else{
+		}
+	}else{//Pitch turn
+		if(z > 0){
+		}else{
+		}
+	}
+}
 void fighterAi(ship* target, aiData* data){
+	double throttle = 0.1, pitch = 0, roll = 0, yaw = 0;
+	double accel = target->accel;
+	double decel = target->decel;
+	double maxSpeed = target->maxSpeed;
+	if(target->speed+accel < maxSpeed*throttle){
+		target->speed+=accel;
+	}else if(target->speed-decel > maxSpeed*throttle){
+		target->speed-=decel;
+	}
+	else{
+		target->speed = maxSpeed*throttle;
+	}
+	ship** draw = NULL;
+	int quantity = getShipsWithin(&draw, target->myPosition, VIEW_DISTANCE);
+	for(int sIdx = 0; sIdx < quantity; sIdx++){
+		if(p3dDistance(target->myPosition, draw[sIdx]->myPosition) < (target->myModel->radius+draw[sIdx]->myModel->radius*2)){
+			puts("too close turning away");
+		}
+	}
+	
 }
 void destroyerAi(ship* target, aiData* data){
 }

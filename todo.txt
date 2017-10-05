@@ -1,6 +1,8 @@
 fighter ai
 spawn request queue
 
+Only send straight bullet's data once
+
 smooth view shifting
 names
 team struct

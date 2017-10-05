@@ -11,7 +11,7 @@
 
 unsigned int tickCount = 0;
 void handleHumanSpawnRequests();
-ship shipTemplates[3];//FIXME put in new function dedicated to generateing types (from file?)
+ship shipTemplates[3];//FIXME put in new function dedicated to generating types (from file?)
 int main(){
 	srandom(time(NULL));
 	loadModels("common/models/");
@@ -26,7 +26,10 @@ int main(){
 		quaternion cr = {1, 0, 0, 0};
 		aiData dat;
 		dat.fighter.mode = -1;
-		addSpawnQueue(cs, cr, 1, fighterAi, dat, 1, NULL, 0);
+		for(int it = 0; it < 3; it++){
+			addSpawnQueue(cs, cr, 1, fighterAi, dat, 1, NULL, 0);
+			cs[0]+=100;
+		}
 	} 
 	while(1){
 		delay(40);

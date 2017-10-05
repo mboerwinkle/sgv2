@@ -26,7 +26,7 @@ int main(){
 		quaternion cr = {1, 0, 0, 0};
 		aiData dat;
 		dat.fighter.mode = -1;
-		addSpawnQueue(cs, cr, 0, fighterAi, dat, 1, NULL, 0);
+		addSpawnQueue(cs, cr, 1, fighterAi, dat, 1, NULL, 0);
 	} 
 	while(1){
 		delay(40);

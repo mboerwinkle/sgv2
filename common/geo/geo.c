@@ -94,13 +94,14 @@ void quatNormalize(quaternion r){
 	r[3]/=val;
 }
 void rotVector(vector vec, quaternion rot){//FIXME adopt the behavior of rotfVector
-	quaternion pureVec = {0, vec[0], vec[1], vec[2]};
+	double mag = VECLEN(vec);
+	quaternion pureVec = {0, vec[0]/mag, vec[1]/mag, vec[2]/mag};
 	quaternion revRot = {rot[0], -rot[1], -rot[2], -rot[3]};
 	quatMult(rot, pureVec, pureVec);
 	quatMult(pureVec, revRot, pureVec);
-	vec[0] = pureVec[1];
-	vec[1] = pureVec[2];
-	vec[2] = pureVec[3];
+	vec[0] = pureVec[1]*mag;
+	vec[1] = pureVec[2]*mag;
+	vec[2] = pureVec[3]*mag;
 }
 void rotfVector(vectorf vec, quaternion rot, vectorf output){
 	double mag = VECLEN(vec);

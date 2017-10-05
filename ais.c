@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "collisionMap.h"
 #include "ship.h"
+
+#define VIEW_DISTANCE 10000//FIXME dupe
 
 void humanAi(ship* target, aiData* data){
 	user* me = data->human.myuser;
@@ -13,9 +16,9 @@ void humanAi(ship* target, aiData* data){
 	pointer[2]+=ctl.pitch;
 	vecNormalize(pointer);//FIXME need interpolated side to side camera movement first
 	rotVector(pointer, me->myRotation);
-	me->myPosition[0] += 1.5*target->myModel->radius*pointer[0];//fixme clean
-	me->myPosition[1] += 1.5*target->myModel->radius*pointer[1];
-	me->myPosition[2] += 1.5*target->myModel->radius*pointer[2];
+	me->myPosition[0] += 3*target->myModel->radius*pointer[0];//fixme clean
+	me->myPosition[1] += 3*target->myModel->radius*pointer[1];
+	me->myPosition[2] += 3*target->myModel->radius*pointer[2];
 	//ctl.accel
 	double accel = target->accel;
 	double decel = target->decel;
@@ -61,25 +64,23 @@ void turn(ship* target, double y, double z, double* pitch, double* roll, double*
 		}else{
 			*yaw = 1;
 		}
-		if(y*z == 0){
-			return;
 	}else{//Pitch turn
 		if(z > 0){
-			*pitch = -1;
-		}else{
 			*pitch = 1;
+		}else{
+			*pitch = -1;
 		}
 	}
 	//roll code
 	if(y == 0 || z == 0) return;//no need for a roll
 	if(y*z*bias < 0){//Which way you need to roll alternates by quadrant and by which type of turn you are executing.
 		*roll = -1;
-	}
+	}else{
 		*roll = 1;
 	}
 }
 void fighterAi(ship* target, aiData* data){
-	double throttle = 0.1, pitch = 0, roll = 0, yaw = 0;
+	double throttle = 1, pitch = 0, roll = 0, yaw = 0;
 	double accel = target->accel;
 	double decel = target->decel;
 	double maxSpeed = target->maxSpeed;
@@ -94,9 +95,34 @@ void fighterAi(ship* target, aiData* data){
 	ship** draw = NULL;
 	int quantity = getShipsWithin(&draw, target->myPosition, VIEW_DISTANCE);
 	for(int sIdx = 0; sIdx < quantity; sIdx++){
-		if(p3dDistance(target->myPosition, draw[sIdx]->myPosition) < (target->myModel->radius+draw[sIdx]->myModel->radius*2)){
-			puts("too close turning away");
+		if(draw[sIdx] == target) continue;
+//		if(p3dDistance(target->myPosition, draw[sIdx]->myPosition) < (target->myModel->radius+draw[sIdx]->myModel->radius*2)){
+	//		puts("too close turning away");
+//		}
+		vector relLoc;
+		for(int dim = 0; dim < 3; dim++){//SUB
+			relLoc[dim] = draw[sIdx]->myPosition[dim]-target->myPosition[dim];
 		}
+		quaternion revRot = {target->myRotation[0], -target->myRotation[1], -target->myRotation[2], -target->myRotation[3]};
+		rotVector(relLoc, revRot);
+	//	printf("%lf, %lf, %lf\n", relLoc[0], relLoc[1], relLoc[2]);
+		turn(target, relLoc[1], relLoc[2], &pitch, &roll, &yaw);
+	}
+	quaternion* rot = &(target->myRotation);
+	if(yaw != 0){//FIXME make standard apply rotations function
+		double angleChg = yaw*target->yawSpeed;
+		quaternion addRot = {cos(0.5*angleChg), 0, 0, sin(0.5*angleChg)};
+		quatMult(*rot, addRot, *rot);
+	}
+	if(roll != 0){
+		double angleChg = roll*target->rollSpeed;
+		quaternion addRot = {cos(0.5*angleChg), sin(0.5*angleChg), 0, 0};
+		quatMult(*rot, addRot, *rot);
+	}
+	if(pitch != 0){
+		double angleChg = pitch*target->pitchSpeed;
+		quaternion addRot = {cos(0.5*angleChg), 0, sin(0.5*angleChg), 0};
+		quatMult(*rot, addRot, *rot);
 	}
 	
 }

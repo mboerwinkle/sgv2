@@ -15,6 +15,7 @@ ship shipTemplates[3];//FIXME put in new function dedicated to generating types 
 int main(){
 	srandom(time(NULL));
 	loadModels("common/models/");
+	printf("SIZES:\nShip %ld\nBullet %ld\nNetwork Ship %ld\nNetwork Bullet %ld\n", sizeof(ship), sizeof(bullet), sizeof(networkShipData), sizeof(networkBullet));
 	point3d start = {0, 0, 0};
 	quaternion rot = {1, 0, 0, 0};
 	shipTemplates[0] = newShip(100, 100, NULL, 0, start, rot, 0, 10, 1, 1, 0.1, 0.1, 0.1);
@@ -26,7 +27,7 @@ int main(){
 		quaternion cr = {1, 0, 0, 0};
 		aiData dat;
 		dat.fighter.mode = -1;
-		for(int it = 0; it < 30; it++){
+		for(int it = 0; it < 1; it++){
 			ability* myAbilities = calloc(1, sizeof(ability));
 			myAbilities[0].act = ability_Machinegun;
 			myAbilities[0].max = 2;
@@ -37,7 +38,7 @@ int main(){
 		cs[1] +=500;
 		cs[2] += 500;
 		cs[0] -= 400*30;
-		for(int it = 0; it < 30; it++){
+		for(int it = 0; it < 1; it++){
 			ability* myAbilities = calloc(1, sizeof(ability));
 			myAbilities[0].act = ability_Machinegun;
 			myAbilities[0].max = 2;

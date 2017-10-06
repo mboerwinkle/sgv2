@@ -56,7 +56,7 @@ void humanAi(ship* target, aiData* data){
 }
 void turn(ship* target, double y, double z, double* pitch, double* roll, double* yaw){//This takes a vector giving a direction of desired motion and controls the ship. It figures out if yaw or pitch is better suited, then rolls to make it even better. Technically it is better to roll to a corner then use yaw and pitch. But we're not doing that.
 	if(y == 0 && z == 0){
-		*pitch = 0.1;//break out of some nasty behavior
+		*pitch = 1;//break out of some nasty behavior
 		return;
 	}
 	int bias = 1;//1 for pitch turn, -1 for yaw turn. Kind of arbitrary, but it helps keep the roll code from having too much duplication

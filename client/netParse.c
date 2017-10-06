@@ -55,10 +55,14 @@ void messageParse(){
 		quatEqual(targRot, (double*)(data+dataUsed)); dataUsed+=sizeof(quaternion);
 		int shipsUsed = *((int*)(data+dataUsed)); dataUsed+=sizeof(int);
 		gfxClear();
+		quaternion shipRotation;
 		for(int shipCount = 0; shipCount < shipsUsed; shipCount++){
 			networkShipData thisShip = *(networkShipData*)(data+dataUsed);
 			dataUsed+=sizeof(networkShipData);
-			drawShip(thisShip.type, thisShip.myPosition, thisShip.myRotation, thisShip.color, thisShip.name);
+			for(int dim = 0; dim < 4; dim++){
+				shipRotation[dim] = (double)(thisShip.myRotation[dim])/127;
+			}
+			drawShip(thisShip.type, thisShip.myPosition, shipRotation, thisShip.color);
 		}
 		int gfxCount = *((int*)(data+dataUsed)); dataUsed+=sizeof(int);
 		for(int temp = 0; temp < gfxCount; temp++){

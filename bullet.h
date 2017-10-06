@@ -7,6 +7,7 @@
 typedef struct bullet{
 	point3d myPos;
 	vector myVector;
+	int speed;
 	int lifetime;
 	int damage;
 	char type;
@@ -16,7 +17,7 @@ extern bullet* bulletList;
 extern int bulletCountMax;
 extern int bulletCount;
 void tickBullets();
-void newBullet(char type, point3d pos, vector dir);
+void newBullet(char type, point3d pos, vector dir, int speed);
 networkBullet getBulletNetworkData(bullet* target);
 
 

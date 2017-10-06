@@ -21,8 +21,5 @@ void ability_Machinegun(ship* target){
 	dir[2] = ((short*)(&rint))[1]%500;
 	vecNormalize(dir);
 	rotVector(dir, target->myRotation);
-	dir[0]*=500;
-	dir[1]*=500;
-	dir[2]*=500;
-	newBullet(0, target->myPosition, dir);
+	newBullet(0, target->myPosition, dir, 500);
 }

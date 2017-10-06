@@ -62,9 +62,11 @@ void sendView(user* destination){
 networkShipData getNetworkShipData(ship* target){
 	networkShipData ret;
 	p3dEqual(ret.myPosition, target->myPosition);
-	quatEqual(ret.myRotation, target->myRotation);
+	//quatEqual(ret.myRotation, target->myRotation);
+	for(int dim = 0; dim < 4; dim++){
+		ret.myRotation[dim] = target->myRotation[dim]*127;
+	}
 	ret.type = target->type;
 	ret.color = target->color;
-//	strcpy(ret.name, target->name);
 	return ret;
 }

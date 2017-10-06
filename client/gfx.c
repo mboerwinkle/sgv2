@@ -25,13 +25,18 @@ void rotateView(){
 void drawBullet(networkBullet* targ){
 	double red, green, blue;
 	int* origin = targ->origin;
-	float* dir = targ->dir;
+	float dir[3];
+	int mult = 1;
 	if(targ->type == 0){//bullets
 		red = 1;
 		green = 0.7;
 		blue = 0;
+		mult = 500;
 	}else{
 		puts("unknown bullet type");
+	}
+	for(int dim = 0; dim < 3; dim++){
+		dir[dim] = (float)(targ->dir[dim])/127*mult;
 	}
 	glColor3f(red, green, blue);
 	point3d end = {origin[0]+dir[0], origin[1]+dir[1], origin[2]+dir[2]};
@@ -48,7 +53,7 @@ void drawLine(point3d a, point3d b){
 	glEnd();
 	glPopMatrix();
 }
-void drawShip(short type, point3d where, quaternion rot, char color, char* name) {
+void drawShip(short type, point3d where, quaternion rot, char color) {
 	double red = 1, green = 1, blue = 1;
 	if(color == 0){
 		red = 0.5;

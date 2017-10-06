@@ -26,10 +26,25 @@ int main(){
 		quaternion cr = {1, 0, 0, 0};
 		aiData dat;
 		dat.fighter.mode = -1;
-		for(int it = 0; it < 3; it++){
-			addSpawnQueue(cs, cr, 1, fighterAi, dat, 1, NULL, 0);
-			cs[0]+=100;
+		for(int it = 0; it < 10; it++){
+			ability* myAbilities = calloc(1, sizeof(ability));
+			myAbilities[0].act = ability_Machinegun;
+			myAbilities[0].max = 2;
+			myAbilities[0].cooldown = 2;
+			addSpawnQueue(cs, cr, 1, fighterAi, dat, 1, myAbilities, 1);
+			cs[0]+=400;
 		}
+	/*	cs[1] +=500;
+		cs[2] += 500;
+		cs[0] -= 300;
+		for(int it = 0; it < 3; it++){
+			ability* myAbilities = calloc(1, sizeof(ability));
+			myAbilities[0].act = ability_Machinegun;
+			myAbilities[0].max = 2;
+			myAbilities[0].cooldown = 2;
+			addSpawnQueue(cs, cr, 1, fighterAi, dat, 0, myAbilities, 1);
+			cs[0]+=100;
+		}*/
 	} 
 	while(1){
 		delay(40);

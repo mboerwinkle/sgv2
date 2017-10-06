@@ -55,7 +55,10 @@ void humanAi(ship* target, aiData* data){
 	}
 }
 void turn(ship* target, double y, double z, double* pitch, double* roll, double* yaw){//This takes a vector giving a direction of desired motion and controls the ship. It figures out if yaw or pitch is better suited, then rolls to make it even better. Technically it is better to roll to a corner then use yaw and pitch. But we're not doing that.
-	if(y == 0 && z == 0) return;
+	if(y == 0 && z == 0){
+		*pitch = 0.1;//break out of some nasty behavior
+		return;
+	}
 	int bias = 1;//1 for pitch turn, -1 for yaw turn. Kind of arbitrary, but it helps keep the roll code from having too much duplication
 	if(fabs(y) > fabs(z)){//Yaw turn
 		bias = -1;
@@ -104,7 +107,7 @@ void fighterAi(ship* target, aiData* data){
 
 		if(reason >= 3) continue;
 		//test reason 2
-		if(distance < (target->myModel->radius+radius)*2){
+		if(distance < (target->myModel->radius+radius)*4){
 			if(reason != 2){
 				score = INFINITY;
 				reason = 2;
@@ -147,6 +150,9 @@ void fighterAi(ship* target, aiData* data){
 		turn(target, -relLoc[1], -relLoc[2], &pitch, &roll, &yaw);//turn away from collisions
 	}else if(reason == 1){//enemy
 		turn(target, relLoc[1], relLoc[2], &pitch, &roll, &yaw);
+	//	if(fabs(relLoc[1])+fabs(relLoc[2]) < relLoc[0]){//FIXME not precise
+			applyAbility(&(target->myAbilities[0]), 1, target);
+	//	}
 	}else if(reason == 0){
 		turn(target, relLoc[1]+500, relLoc[2], &pitch, &roll, &yaw);
 	}

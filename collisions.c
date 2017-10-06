@@ -8,12 +8,13 @@ int intersect_triangle(vectorf l1, vectorf l2, vectorf vert0, vectorf vert1, vec
 void handleCollisions(ship* ref, ship** col, int colCount){
 	point3d pos;
 	p3dEqual(pos, ref->myPosition);
-//FIXME	double rad = ref->myModel->radius;
+	double rad = ref->myModel->radius;
 	for(int idx = 0; idx < colCount; idx++){
-//		point3d pos2;
-//		p3dEqual(pos2, col[idx]->myPosition);
-//FIXME		double rad2 = col[idx]->myModel->radius;
-		if(modelCollide(ref->myModel, ref->myPosition, ref->myRotation, col[idx]->myModel, col[idx]->myPosition, col[idx]->myRotation)){
+		point3d pos2;
+		p3dEqual(pos2, col[idx]->myPosition);
+		double rad2 = col[idx]->myModel->radius;
+		if(p3dDistance(pos, pos2) > rad+rad2) continue;
+		if(modelCollide(ref->myModel, pos, ref->myRotation, col[idx]->myModel, pos2, col[idx]->myRotation)){
 //			puts("collided ships");
 		}
 	}

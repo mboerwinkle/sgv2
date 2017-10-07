@@ -25,7 +25,7 @@ int bulletIntersectsShip(bullet* b, ship* s){
 	for(int triIdx = 0; triIdx < cModel->triangleCount; triIdx++){
 		struct tri* cTri = &(cModel->triangles[triIdx]);
 		if(intersect_triangle(origin, dir, cTri->p1, cTri->p2, cTri->p3)){
-			puts("intersected");
+		//	puts("intersected");
 			return 1;
 		}
 	}

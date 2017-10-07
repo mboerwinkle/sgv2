@@ -23,6 +23,7 @@ void loadModels(char* dest){
 	for(int modelIdx = 0; modelIdx < modelCount;  modelIdx++){
 		fscanf(modelList, "%s", path);
 		sprintf(completepath, "%s%s", dest, path);
+		printf("loading model %s\n", completepath);
 		loadModel(completepath, &(models[modelIdx]));
 	}
 	fclose(modelList);
@@ -30,8 +31,9 @@ void loadModels(char* dest){
 
 void loadModel(char* dest, model* target){
 	FILE* thisModel = fopen(dest, "r");
-	if(models == NULL){
+	if(thisModel == NULL){
 		printf("Could not open file %s\n", dest);
+		return;
 	}
 	fseek(thisModel, 80, SEEK_SET);//get past the header
 	fread(&(target->triangleCount), sizeof(uint32_t), 1, thisModel);//number of triangles

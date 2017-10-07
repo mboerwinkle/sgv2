@@ -13,11 +13,12 @@ int bulletIntersectsShip(bullet* b, ship* s){
 	vectorf dir;
 	for(int dim = 0; dim < 3; dim++){//FIXME vecequals
 		dir[dim] = b->myVector[dim]*b->speed;
+		origin[dim] = (b->myPos[dim]-s->myPosition[dim]);
 	}
 	quaternion revRot = {s->myRotation[0], -s->myRotation[1], -s->myRotation[2], -s->myRotation[3]};//FIXME revRot
 	rotfVector(dir, revRot, dir);//this is fucked. FIXME
+	rotfVector(origin, revRot, origin);
 	for(int dim = 0; dim < 3; dim++){
-		origin[dim] = (b->myPos[dim]-s->myPosition[dim]);
 		dir[dim]+=origin[dim];//This shouldn't exist. I change a vector to an end point here. but intersect_triangle turns it back. This is a big issue since bullets are effPrio#1
 	}
 	model* cModel = s->myModel;

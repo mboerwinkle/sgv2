@@ -23,7 +23,7 @@ void ability_Machinegun(ship* target){
 	rotVector(dir, target->myRotation);
 	point3d bulletStart;
 	for(int dim = 0; dim < 3; dim++){
-		bulletStart[dim] = target->myPosition[dim]+(dir[dim]*(target->myModel->radius+5));
+		bulletStart[dim] = target->myPosition[dim]+(int)(dir[dim]*(target->myModel->radius+target->speed+5));
 	}
 	newBullet(0, bulletStart, dir, 500);
 }

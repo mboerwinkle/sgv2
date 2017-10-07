@@ -23,7 +23,7 @@ int main(){
 	shipTemplates[2] = newShip(100, 100, NULL, 0, start, rot, 0, 10, 1, 1, 0.1, 0.1, 0.1);
 	setupNetworkListen();
 	{
-		point3d cs = {500000000, 500000000, 500000000};
+		point3d cs = {5000, 5000, 5000};
 		quaternion cr = {1, 0, 0, 0};
 		aiData dat;
 		dat.fighter.mode = -1;
@@ -66,7 +66,7 @@ int main(){
 void handleHumanSpawnRequests(){
 	for(int userIdx = 0; userIdx < userCount; userIdx++){
 		if(userList[userIdx].myControls.spawn != -1){//they want the spawn
-			point3d cs = {500000000, 500000000, 500000000};
+			point3d cs = {5000, 5000, 5000};
 			quaternion cr = {1, 0, 0, 0};
 			aiData dat;
 			dat.human.myuser = &(userList[userIdx]);

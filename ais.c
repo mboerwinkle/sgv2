@@ -138,6 +138,7 @@ void fighterAi(ship* target, aiData* data){
 			score = distance-radius;
 		}
 	}
+	free(draw);
 	vector relLoc;
 	if(reason >= 0){
 		for(int dim = 0; dim < 3; dim++){//SUB

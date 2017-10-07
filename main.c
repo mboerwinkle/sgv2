@@ -27,7 +27,7 @@ int main(){
 		quaternion cr = {1, 0, 0, 0};
 		aiData dat;
 		dat.fighter.mode = -1;
-		addSpawnQueue(cs, cr, 0, idleAi, dat, 1, NULL, 0);
+		addSpawnQueue(cs, cr, 1, idleAi, dat, 1, NULL, 0);
 	/*	for(int it = 0; it < 30; it++){
 			ability* myAbilities = calloc(1, sizeof(ability));
 			myAbilities[0].act = ability_Machinegun;

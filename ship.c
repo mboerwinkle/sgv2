@@ -28,9 +28,13 @@ void tickShips(){
 		currShip->ai(currShip, &(currShip->myAiData));
 		double axis[3] = {1, 0, 0};
 		rotVector(axis, currShip->myRotation);
-		currShip->myPosition[0]+=(currShip->speed)*(axis[0]);
-		currShip->myPosition[1]+=(currShip->speed)*(axis[1]);
-		currShip->myPosition[2]+=(currShip->speed)*(axis[2]);
+		for(int dim = 0; dim < 3; dim++){
+			double motion = (currShip->speed)*(axis[dim]);
+			currShip->positionOffset[dim] += motion;
+			currShip->myPosition[dim] += (int)currShip->positionOffset[dim];
+			currShip->positionOffset[dim] -= (int)(currShip->positionOffset[dim]);
+		}
+		
 	}
 }
 void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiData*), aiData myData, char color, ability* myAbilities, int abilityCount){
@@ -84,6 +88,7 @@ ship newShip(int hp, int maxHp, ability* myAbilities, int abilityCount, point3d 
 	o.rollSpeed = rollspeed;
 	o.pitchSpeed = pitchspeed;
 	o.yawSpeed = yawspeed;
+	memset(o.positionOffset, 0, sizeof(double)*3);
 	memcpy(o.myPosition, myPosition, sizeof(point3d));
 	memcpy(o.myRotation, myRotation, sizeof(quaternion));
 	return o;//FIXME should newship and copyship accept a pointer to write to instead?

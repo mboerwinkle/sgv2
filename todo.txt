@@ -1,7 +1,6 @@
+bullet polygon collisions
 fighter ai
 spawn request queue
-
-Only send straight bullet's data once
 
 smooth view shifting
 names
@@ -18,7 +17,5 @@ bullet collision multithreading (2)
 
 
 ways to speed up ship collisions:
-	use bounding boxes
 	precalculate edges (speed boost x2)
-	macros for math functions
 	macro for revQuatMult

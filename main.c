@@ -27,7 +27,7 @@ int main(){
 		quaternion cr = {1, 0, 0, 0};
 		aiData dat;
 		dat.fighter.mode = -1;
-		for(int it = 0; it < 1; it++){
+		for(int it = 0; it < 30; it++){
 			ability* myAbilities = calloc(1, sizeof(ability));
 			myAbilities[0].act = ability_Machinegun;
 			myAbilities[0].max = 2;
@@ -38,7 +38,7 @@ int main(){
 		cs[1] +=500;
 		cs[2] += 500;
 		cs[0] -= 400*30;
-		for(int it = 0; it < 1; it++){
+		for(int it = 0; it < 30; it++){
 			ability* myAbilities = calloc(1, sizeof(ability));
 			myAbilities[0].act = ability_Machinegun;
 			myAbilities[0].max = 2;

@@ -57,6 +57,7 @@ typedef struct ship{
 	ability* myAbilities;
 	int abilityCount;
 	point3d myPosition;
+	vector positionOffset;//used to keep you flying in a straight line at slow speeds
 	quaternion myRotation;
 	double speed;
 	double maxSpeed;

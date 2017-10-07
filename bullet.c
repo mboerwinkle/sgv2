@@ -34,21 +34,22 @@ int bulletIntersectsShip(bullet* b, ship* s){
 void tickBullets(){
 	for(int bIdx = 0; bIdx < bulletCount; bIdx++){
 		bullet* b = &(bulletList[bIdx]);
-		for(int dim = 0; dim < 3; dim++){
-			b->myPos[dim]+=b->myVector[dim]*b->speed;
-		}
-		
+
+		int intersected = 0;
 		ship** draw = NULL;
 		int quantity = getShipsWithin(&draw, b->myPos, b->speed);//FIXME see if you get better performance by getting ships within from the middle of the bullet and half the length of the vecotr
 		for(int sidx = 0; sidx < quantity; sidx++){
 			if(bulletIntersectsShip(b, draw[sidx])){
 				draw[sidx]->hp-=b->damage;
+				intersected = 1;
 			}
 		}
 		free(draw);
-
+		for(int dim = 0; dim < 3; dim++){
+			b->myPos[dim]+=b->myVector[dim]*b->speed;
+		}
 		bulletList[bIdx].lifetime -= 1;
-		if(bulletList[bIdx].lifetime <= 0){
+		if(bulletList[bIdx].lifetime <= 0 || intersected){
 			bulletList[bIdx] = bulletList[bulletCount-1];
 			bulletCount--;
 			bIdx--;

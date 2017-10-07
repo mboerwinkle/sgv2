@@ -6,6 +6,9 @@
 
 #define VIEW_DISTANCE 10000//FIXME dupe
 
+void idleAi(ship* target, aiData* data){
+}
+
 void humanAi(ship* target, aiData* data){
 	user* me = data->human.myuser;
 	controlMap ctl = me->myControls;

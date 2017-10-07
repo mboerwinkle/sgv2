@@ -27,6 +27,7 @@ extern void spawnShip(ship* queueEntry);
 extern ship copyShip(ship* copyTarget, point3d pos, quaternion rot);
 extern ship newShip(int hp, int maxHp, ability* myAbilities, int abilityCount, point3d myPosition, quaternion myRotation, double speed, double maxSpeed, double accel, double decel, double rollspeed, double pitchspeed, double yawspeed);
 
+extern void idleAi(ship*, aiData*);
 extern void humanAi(ship*, aiData*);
 extern void fighterAi(ship*, aiData*);
 extern void destroyerAi(ship*, aiData*);

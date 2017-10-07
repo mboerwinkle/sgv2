@@ -10,6 +10,7 @@ void idleAi(ship* target, aiData* data){
 }
 
 void humanAi(ship* target, aiData* data){
+	if(target->speed != 0) printf("%d %d %d\n", target->myPosition[0], target->myPosition[1], target->myPosition[2]);
 	user* me = data->human.myuser;
 	controlMap ctl = me->myControls;
 	p3dEqual(me->myPosition, target->myPosition);

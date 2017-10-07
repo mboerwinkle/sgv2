@@ -68,7 +68,7 @@ void newBullet(char type, point3d pos, vector dir, int speed){
 	bulletList[bulletCount].speed = speed;
 	if(type == 0){
 		bulletList[bulletCount].lifetime = 40;
-		bulletList[bulletCount].damage = 1;
+		bulletList[bulletCount].damage = 10;
 	}else{
 		puts("unknown bullet type");
 	}

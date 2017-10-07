@@ -1,4 +1,5 @@
 go through and check that my casted math is done right
+bounding boxes for bullets/ship collisions
 store the actual meshes in non-compacted data structures for speed.
 
 bullet polygon collisions

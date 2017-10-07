@@ -23,12 +23,12 @@ int main(){
 	shipTemplates[2] = newShip(100, 100, NULL, 0, start, rot, 0, 10, 1, 1, 0.1, 0.1, 0.1);
 	setupNetworkListen();
 	{
-		point3d cs = {5000000, 5000000, 5000000};
+		point3d cs = {500000000, 500000000, 500000000};
 		quaternion cr = {1, 0, 0, 0};
 		aiData dat;
 		dat.fighter.mode = -1;
 		addSpawnQueue(cs, cr, 1, idleAi, dat, 1, NULL, 0);
-	/*	for(int it = 0; it < 30; it++){
+		/*for(int it = 0; it < 30; it++){
 			ability* myAbilities = calloc(1, sizeof(ability));
 			myAbilities[0].act = ability_Machinegun;
 			myAbilities[0].max = 2;
@@ -66,7 +66,7 @@ int main(){
 void handleHumanSpawnRequests(){
 	for(int userIdx = 0; userIdx < userCount; userIdx++){
 		if(userList[userIdx].myControls.spawn != -1){//they want the spawn
-			point3d cs = {5000000, 5000000, 5000000};
+			point3d cs = {500000000, 500000000, 500000000};
 			quaternion cr = {1, 0, 0, 0};
 			aiData dat;
 			dat.human.myuser = &(userList[userIdx]);

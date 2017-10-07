@@ -12,7 +12,7 @@ int bulletIntersectsShip(bullet* b, ship* s){
 	vectorf origin;
 	vectorf dir;
 	for(int dim = 0; dim < 3; dim++){//FIXME vecequals
-		dir[dim] = b->myVector[dim];
+		dir[dim] = b->myVector[dim]*b->speed;
 	}
 	quaternion revRot = {s->myRotation[0], -s->myRotation[1], -s->myRotation[2], -s->myRotation[3]};//FIXME revRot
 	rotfVector(dir, revRot, dir);//this is fucked. FIXME
@@ -24,6 +24,7 @@ int bulletIntersectsShip(bullet* b, ship* s){
 	for(int triIdx = 0; triIdx < cModel->triangleCount; triIdx++){
 		struct tri* cTri = &(cModel->triangles[triIdx]);
 		if(intersect_triangle(origin, dir, cTri->p1, cTri->p2, cTri->p3)){
+			puts("intersected");
 			return 1;
 		}
 	}
@@ -38,7 +39,7 @@ void tickBullets(){
 		}
 		
 		ship** draw = NULL;
-		int quantity = getShipsWithin(&draw, b->myPos, VECLEN(b->myVector));
+		int quantity = getShipsWithin(&draw, b->myPos, b->speed);//FIXME see if you get better performance by getting ships within from the middle of the bullet and half the length of the vecotr
 		for(int sidx = 0; sidx < quantity; sidx++){
 			if(bulletIntersectsShip(b, draw[sidx])){
 				draw[sidx]->hp-=b->damage;

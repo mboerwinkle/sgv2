@@ -4,7 +4,7 @@
 #include "common/stlLoad/loadStl.h"
 int modelCollide(model* a, point3d pa, quaternion ra, model* b, point3d pb, quaternion rb);
 int trianglesIntersect(struct tri a, struct tri b);
-int intersect_triangle(vectorf l1, vectorf l2, vectorf vert0, vectorf vert1, vectorf vert2);
+
 void handleCollisions(ship* ref, ship** col, int colCount){
 	point3d pos;
 	p3dEqual(pos, ref->myPosition);

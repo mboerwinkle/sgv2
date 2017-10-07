@@ -1,3 +1,6 @@
+go through and check that my casted math is done right
+store the actual meshes in non-compacted data structures for speed.
+
 bullet polygon collisions
 fighter ai
 spawn request queue

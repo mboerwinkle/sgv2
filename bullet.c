@@ -2,12 +2,31 @@
 #include <stdlib.h>
 #include "ship.h"
 #include "collisionMap.h"
+#include "collisions.h"
 #include "bullet.h"
 bullet* bulletList = NULL;
 int bulletCountMax;
 int bulletCount;
 
 int bulletIntersectsShip(bullet* b, ship* s){
+	vectorf origin;
+	vectorf dir;
+	for(int dim = 0; dim < 3; dim++){//FIXME vecequals
+		dir[dim] = b->myVector[dim];
+	}
+	quaternion revRot = {s->myRotation[0], -s->myRotation[1], -s->myRotation[2], -s->myRotation[3]};//FIXME revRot
+	rotfVector(dir, revRot, dir);//this is fucked. FIXME
+	for(int dim = 0; dim < 3; dim++){
+		origin[dim] = (b->myPos[dim]-s->myPosition[dim]);
+		dir[dim]+=origin[dim];//This shouldn't exist. I change a vector to an end point here. but intersect_triangle turns it back. This is a big issue since bullets are effPrio#1
+	}
+	model* cModel = s->myModel;
+	for(int triIdx = 0; triIdx < cModel->triangleCount; triIdx++){
+		struct tri* cTri = &(cModel->triangles[triIdx]);
+		if(intersect_triangle(origin, dir, cTri->p1, cTri->p2, cTri->p3)){
+			return 1;
+		}
+	}
 	return 0;
 }
 

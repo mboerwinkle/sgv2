@@ -8,7 +8,7 @@ typedef int point3d[3];
 typedef double quaternion[4];
 
 extern double p3dDistance(point3d a, point3d b);
-
+#define DISTANCE(a, b) sqrt((a[0]-b[0])*(a[0]-b[0])+(a[1]-b[1])*(a[1]-b[1])+(a[2]-b[2])*(a[2]-b[2]))//FIXME actually use
 #define CROSS(v1, v2, dest)\
         dest[0]=v1[1]*v2[2]-v1[2]*v2[1];\
         dest[1]=v1[2]*v2[0]-v1[0]*v2[2];\

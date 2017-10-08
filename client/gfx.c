@@ -137,7 +137,7 @@ void initGfx() {
 	glMatrixMode(GL_PROJECTION);
 	//This multiplies a specially designed matrix onto the selected one
 //	glFrustum(-1.0, 1.0, -1.0, 1.0, 1.0, 5000);
-	gluPerspective(120, 8.0/6.0, 1, 5000);
+	gluPerspective(120, 8.0/6.0, 1, 10000);
 	//Edit the modelview matrix (The "default" matrix)
 	glMatrixMode(GL_MODELVIEW);
 	glShadeModel(GL_SMOOTH);//FIXME not anything to fix here. just mentioning that GL_SMOOTH looks hella nice.//as opposed to GL_FLAT

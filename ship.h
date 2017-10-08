@@ -17,6 +17,7 @@ extern ship* shipList;
 extern int shipCountMax;
 extern int shipCount;
 
+extern void tickShipAi();
 extern void tickShips();
 extern void killShips();
 

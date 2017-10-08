@@ -8,7 +8,7 @@
 #include "bullet.h"
 
 #define MAXUSERS 20
-#define VIEW_DISTANCE 10000
+
 user userList[MAXUSERS];
 int userCount = 0;
 

@@ -4,8 +4,6 @@
 #include "collisionMap.h"
 #include "ship.h"
 
-#define VIEW_DISTANCE 10000//FIXME dupe
-
 void idleAi(ship* target, aiData* data){
 }
 
@@ -179,5 +177,94 @@ void fighterAi(ship* target, aiData* data){
 	}
 	
 }
-void destroyerAi(ship* target, aiData* data){
+void destroyerAi(ship* target, aiData* data){//FIXME. this is just an "always fire" hack of the fighter ai
+	double throttle = 1, pitch = 0, roll = 0, yaw = 0;
+	double accel = target->accel;
+	double decel = target->decel;
+	double maxSpeed = target->maxSpeed;
+	if(target->speed+accel < maxSpeed*throttle){
+		target->speed+=accel;
+	}else if(target->speed-decel > maxSpeed*throttle){
+		target->speed-=decel;
+	}
+	else{
+		target->speed = maxSpeed*throttle;
+	}
+	ship** draw = NULL;
+	int quantity = getShipsWithin(&draw, target->myPosition, VIEW_DISTANCE);
+	ship* best;
+	double score = INFINITY;
+	int reason = -1;//-1 we've got nothing. 0 closest friend 1 closest enemy 2 proximity
+	for(int sIdx = 0; sIdx < quantity; sIdx++){
+		if(draw[sIdx] == target) continue;
+		double radius = draw[sIdx]->myModel->radius;
+		double distance = p3dDistance(target->myPosition, draw[sIdx]->myPosition);//calculate distance
+
+		if(reason >= 3) continue;
+		//test reason 2
+		if(distance < (target->myModel->radius+radius)*4){
+			if(reason != 2){
+				score = INFINITY;
+				reason = 2;
+			}
+			if(distance-radius < score){
+				best = draw[sIdx];
+				score = distance-radius;
+			}
+		}
+		if(reason >= 2) continue;
+		//test reason 1
+		if(draw[sIdx]->color != target->color){
+			if(reason != 1){
+				score = INFINITY;
+				reason = 1;
+			}
+			if(distance-radius < score){
+				best = draw[sIdx];
+				score = distance-radius;
+			}
+		}
+		
+		if(reason >= 1) continue;
+		//test reason 0
+		reason = 0;
+		if(distance-radius < score){
+			best = draw[sIdx];
+			score = distance-radius;
+		}
+	}
+	free(draw);
+	vector relLoc;
+	if(reason >= 0){
+		for(int dim = 0; dim < 3; dim++){//SUB
+			relLoc[dim] = best->myPosition[dim]-target->myPosition[dim];
+		}
+		quaternion revRot = {target->myRotation[0], -target->myRotation[1], -target->myRotation[2], -target->myRotation[3]};
+		rotVector(relLoc, revRot);
+	}
+	applyAbility(&(target->myAbilities[0]), 1, target);
+	if(reason == 2){//proximity
+		turn(target, -relLoc[1], -relLoc[2], &pitch, &roll, &yaw);//turn away from collisions
+	}else if(reason == 1){//enemy
+		turn(target, relLoc[1], relLoc[2], &pitch, &roll, &yaw);
+	}else if(reason == 0){
+		turn(target, relLoc[1]+500, relLoc[2], &pitch, &roll, &yaw);
+	}
+	quaternion* rot = &(target->myRotation);
+	if(yaw != 0){//FIXME make standard apply rotations function
+		double angleChg = yaw*target->yawSpeed;
+		quaternion addRot = {cos(0.5*angleChg), 0, 0, sin(0.5*angleChg)};
+		quatMult(*rot, addRot, *rot);
+	}
+	if(roll != 0){
+		double angleChg = roll*target->rollSpeed;
+		quaternion addRot = {cos(0.5*angleChg), sin(0.5*angleChg), 0, 0};
+		quatMult(*rot, addRot, *rot);
+	}
+	if(pitch != 0){
+		double angleChg = pitch*target->pitchSpeed;
+		quaternion addRot = {cos(0.5*angleChg), 0, sin(0.5*angleChg), 0};
+		quatMult(*rot, addRot, *rot);
+	}
+	
 }

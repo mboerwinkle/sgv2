@@ -243,5 +243,14 @@ void showGrid(node* thisOne, int tabs){
 	}
 	for(int tab = 0; tab < tabs; tab++) printf("  ");
 	printf("}\n");
-	if(tabs == 0) printf("%d ships\n%d nodes\n", shipCount, nodesUsed);
+	if(tabs == 0){
+		printf("%d ships\n%d nodes\n", shipCount, nodesUsed);
+		int color[5] = {0};
+		for(int sIdx = 0; sIdx < shipCount; sIdx++){
+			color[(int)shipList[sIdx].color]++;
+		}
+		for(int c = 0; c < 5; c++){
+			printf("color %d: %d\n", c, color[c]);
+		}
+	}
 }

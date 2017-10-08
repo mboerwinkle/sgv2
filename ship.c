@@ -21,11 +21,15 @@ void killShips(){
 		}
 	}
 }
-
-void tickShips(){
+void tickShipAi(){
 	for(int shipIdx = 0; shipIdx < shipCount; shipIdx++){
 		ship* currShip = &(shipList[shipIdx]);
 		currShip->ai(currShip, &(currShip->myAiData));
+	}
+}
+void tickShips(){
+	for(int shipIdx = 0; shipIdx < shipCount; shipIdx++){
+		ship* currShip = &(shipList[shipIdx]);
 		double axis[3] = {1, 0, 0};
 		rotVector(axis, currShip->myRotation);
 		for(int dim = 0; dim < 3; dim++){

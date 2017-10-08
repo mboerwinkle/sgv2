@@ -1,5 +1,6 @@
-3
-hole.stl
-ship1.stl
+5
+userShip.stl
+humanFighter.stl
+alienFighter.stl
+humanCarrier.stl
 alienCarrier.stl
-test.stl

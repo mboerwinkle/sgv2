@@ -109,7 +109,7 @@ void fighterAi(ship* target, aiData* data){
 
 		if(reason >= 3) continue;
 		//test reason 2
-		if(distance < (target->myModel->radius+radius)*4){
+		if(distance < (target->myModel->radius*3+radius)){//only multiply your radius so you play nice with big slow ships.
 			if(reason != 2){
 				score = INFINITY;
 				reason = 2;

@@ -13,7 +13,7 @@ void handleCollisions(ship* ref, ship** col, int colCount){
 		point3d pos2;
 		p3dEqual(pos2, col[idx]->myPosition);
 		double rad2 = col[idx]->myModel->radius;
-		if(p3dDistance(pos, pos2) > rad+rad2) continue;
+		//if(p3dDistance(pos, pos2) > rad+rad2) continue;
 		if(modelCollide(ref->myModel, pos, ref->myRotation, col[idx]->myModel, pos2, col[idx]->myRotation)){
 //			puts("collided ships");
 		}

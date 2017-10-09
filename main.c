@@ -30,13 +30,15 @@ int main(){
 		aiData dat;
 		dat.fighter.mode = -1;
 		//addSpawnQueue(cs, cr, 1, idleAi, dat, 1, NULL, 0);
-		ability* myAbilities = calloc(1, sizeof(ability));
+		/*ability* myAbilities = calloc(1, sizeof(ability));
 		myAbilities[0].act = ability_AutoMachinegun;
 		myAbilities[0].max = 2;
 		myAbilities[0].cooldown = 2;
-		cs[0]+=1600;
+		cs[0]+=2000;
+		cs[1]+=2000;
 		addSpawnQueue(cs, cr, 4, destroyerAi, dat, 0, myAbilities, 1);
-		cs[0]-=1600;
+		cs[0]-=2000;
+		cs[1]-=2000;
 		for(int x = 0; x < 3; x++){
 			cs[0]+=400;
 			for(int y = 0; y < 3; y++){
@@ -48,19 +50,19 @@ int main(){
 					myAbilities[0].act = ability_Machinegun;
 					myAbilities[0].max = 2;
 					myAbilities[0].cooldown = 2;
-					addSpawnQueue(cs, cr, 1, fighterAi, dat, 0, myAbilities, 1);
+					addSpawnQueue(cs, cr, 1, fighterAi, dat, 1, myAbilities, 1);
 					cs[2]-=400;
 					myAbilities = calloc(1, sizeof(ability));
 					myAbilities[0].act = ability_Machinegun;
 					myAbilities[0].max = 2;
 					myAbilities[0].cooldown = 2;
-					addSpawnQueue(cs, cr, 2, fighterAi, dat, 1, myAbilities, 1);
+					addSpawnQueue(cs, cr, 2, fighterAi, dat, 0, myAbilities, 1);
 
 				}
 				cs[2]-=800*3;
 			}
 			cs[1]-=3*400;
-		}
+		}*/
 
 	} 
 	while(1){
@@ -89,7 +91,7 @@ void handleHumanSpawnRequests(){
 			myAbilities[0].act = ability_AutoMachinegun;
 			myAbilities[0].max = 2;
 			myAbilities[0].cooldown = 2;
-			addSpawnQueue(cs, cr, 3, humanAi, dat, 1, myAbilities, 1);
+			addSpawnQueue(cs, cr, 2, humanAi, dat, 1, myAbilities, 1);
 			userList[userIdx].myControls.spawn = -1;
 			
 		}

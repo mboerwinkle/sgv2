@@ -28,7 +28,36 @@ void loadModels(char* dest){
 	}
 	fclose(modelList);
 }
-
+int edgeExists(model* t, float* a, float* b){
+	for(int eIdx = 0; eIdx < t->edgeCount; eIdx++){//FIXME ugly and code dupe
+		struct edge* e = &(t->edges[eIdx]);
+		int score = 0;
+		for(int dim = 0; dim < 3; dim++){
+			if(a[dim] != e->a[dim] || b[dim] != e->b[dim]) break;
+			score++;
+		}
+		if(score == 3) return 1;
+	}
+	float* c = a;
+	a = b;
+	b = c;
+	for(int eIdx = 0; eIdx < t->edgeCount; eIdx++){
+		struct edge* e = &(t->edges[eIdx]);
+		int score = 0;
+		for(int dim = 0; dim < 3; dim++){
+			if(a[dim] != e->a[dim] || b[dim] != e->b[dim]) break;
+			score++;
+		}
+		if(score == 3) return 1;
+	}
+	return 0;
+}
+void addEdge(model* t, float* a, float* b){
+	(t->edgeCount)++;//FIXME what is that thing it doesn't like again?
+	t->edges = realloc(t->edges, sizeof(struct edge)*t->edgeCount);
+	vecfEqual(t->edges[t->edgeCount-1].a, a);
+	vecfEqual(t->edges[t->edgeCount-1].b, b);
+}
 void loadModel(char* dest, model* target){
 	FILE* thisModel = fopen(dest, "r");
 	if(thisModel == NULL){
@@ -37,12 +66,13 @@ void loadModel(char* dest, model* target){
 	}
 	fseek(thisModel, 80, SEEK_SET);//get past the header
 	fread(&(target->triangleCount), sizeof(uint32_t), 1, thisModel);//number of triangles
-	printf("model %s had %d triangles\n", dest, target->triangleCount);
 	target->triangles = calloc(target->triangleCount, sizeof(struct tri));
 	fread(target->triangles, sizeof(struct tri), target->triangleCount, thisModel);
 	fclose(thisModel);
 	//find radius
 	target->radius = 0;
+	target->edges = NULL;
+	target->edgeCount = 0;
 	for(int triIdx = 0; triIdx < target->triangleCount; triIdx++){
 		double newRadius = VECLEN(target->triangles[triIdx].p1);
 		if(newRadius > target->radius) target->radius = newRadius;
@@ -52,8 +82,19 @@ void loadModel(char* dest, model* target){
 		if(newRadius > target->radius) target->radius = newRadius;
 
 		triNormal(&(target->triangles[triIdx]));
+
+		if(!edgeExists(target, target->triangles[triIdx].p1, target->triangles[triIdx].p2)){
+			addEdge(target, target->triangles[triIdx].p1, target->triangles[triIdx].p2);
+		}
+		if(!edgeExists(target, target->triangles[triIdx].p3, target->triangles[triIdx].p2)){
+			addEdge(target, target->triangles[triIdx].p3, target->triangles[triIdx].p2);
+		}
+		if(!edgeExists(target, target->triangles[triIdx].p1, target->triangles[triIdx].p3)){
+			addEdge(target, target->triangles[triIdx].p1, target->triangles[triIdx].p3);
+		}
 	}
 	//find normal
+	printf("model %s had %d triangles, %d edges\n", dest, target->triangleCount, target->edgeCount);
 }
 
 void triNormal(struct tri* t){

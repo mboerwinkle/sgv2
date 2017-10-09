@@ -2,8 +2,9 @@ go through and check that my casted math is done right
 bounding boxes for bullets/ship collisions
 store the actual meshes in non-compacted data structures for speed.
 
-bullet polygon collisions
-fighter ai
+send hp in network data
+
+fighter ai (passes instead of circling)
 spawn request queue
 
 smooth view shifting
@@ -21,5 +22,9 @@ bullet collision multithreading (2)
 
 
 ways to speed up ship collisions:
+
+
 	precalculate edges (speed boost x2)
+		--PLEASE REENABLE BOUNDING SPHERES
+
 	macro for revQuatMult

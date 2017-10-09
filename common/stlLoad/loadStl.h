@@ -8,10 +8,16 @@ struct tri{
 	float p3[3];
 	uint16_t attr;
 }__attribute__((packed));
+struct edge{
+	float a[3];
+	float b[3];
+};
 typedef struct model{
-	uint32_t triangleCount;
 	double radius;
+	uint32_t triangleCount;
 	struct tri* triangles;
+	uint32_t edgeCount;
+	struct edge* edges;
 }model;
 extern int modelCount;
 extern model* models;

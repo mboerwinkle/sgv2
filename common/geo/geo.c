@@ -73,7 +73,6 @@ void quatMult(double* a, double* b, double* save){
 	newTarg[1]=(b[0] * a[1] + b[1] * a[0] + b[2] * a[3] - b[3] * a[2]);
 	newTarg[2]=(b[0] * a[2] - b[1] * a[3] + b[2] * a[0] + b[3] * a[1]);
 	newTarg[3]=(b[0] * a[3] + b[1] * a[2] - b[2] * a[1] + b[3] * a[0]);
-	quatNormalize(newTarg);//FIXME efficency does not need to fix every tick
 	quatEqual(save, newTarg);
 }
 void lerp(quaternion ret, quaternion one, quaternion two, double t){

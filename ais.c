@@ -55,6 +55,8 @@ void humanAi(ship* target, aiData* data){
 		if(ctl.fire != -1 && ctl.fire%target->abilityCount == abiIdx) status = 1;//FIXME INelegant
 		applyAbility(&(target->myAbilities[abiIdx]), status, target);
 	}
+
+	quatNormalize(*rot);
 }
 void turn(ship* target, double y, double z, double* pitch, double* roll, double* yaw){//This takes a vector giving a direction of desired motion and controls the ship. It figures out if yaw or pitch is better suited, then rolls to make it even better. Technically it is better to roll to a corner then use yaw and pitch. But we're not doing that.
 	if(y == 0 && z == 0){
@@ -175,7 +177,7 @@ void fighterAi(ship* target, aiData* data){
 		quaternion addRot = {cos(0.5*angleChg), 0, sin(0.5*angleChg), 0};
 		quatMult(*rot, addRot, *rot);
 	}
-	
+	quatNormalize(*rot);
 }
 void destroyerAi(ship* target, aiData* data){//FIXME. this is just an "always fire" hack of the fighter ai
 	double throttle = 1, pitch = 0, roll = 0, yaw = 0;
@@ -266,5 +268,5 @@ void destroyerAi(ship* target, aiData* data){//FIXME. this is just an "always fi
 		quaternion addRot = {cos(0.5*angleChg), 0, sin(0.5*angleChg), 0};
 		quatMult(*rot, addRot, *rot);
 	}
-	
+		quatNormalize(*rot);
 }

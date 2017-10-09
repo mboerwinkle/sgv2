@@ -3,7 +3,6 @@
 #include "collisions.h"
 #include "common/stlLoad/loadStl.h"
 int modelCollide(model* a, point3d pa, quaternion ra, model* b, point3d pb, quaternion rb);
-int trianglesIntersect(struct tri a, struct tri b);
 
 void handleCollisions(ship* ref, ship** col, int colCount){
 	point3d pos;
@@ -20,7 +19,7 @@ void handleCollisions(ship* ref, ship** col, int colCount){
 	}
 }
 
-int modelCollide(model* a, point3d pa, quaternion ra, model* b, point3d pb, quaternion rb){
+int modelCollide(model* a, point3d pa, quaternion ra, model* b, point3d pb, quaternion rb){//FIXME... we might have to perform the same rotation many times per tick
 	int offset[3];
 	for(int dim = 0; dim < 3; dim++){
 		offset[dim] = pb[dim]-pa[dim];
@@ -30,31 +29,38 @@ int modelCollide(model* a, point3d pa, quaternion ra, model* b, point3d pb, quat
 		rotfVector(a->triangles[ta].p1, ra, tria.p1);
 		rotfVector(a->triangles[ta].p2, ra, tria.p2);
 		rotfVector(a->triangles[ta].p3, ra, tria.p3);
-		for(int tb = 0; tb < b->triangleCount; tb++){
-			struct tri trib;
-			rotfVector(b->triangles[tb].p1, rb, trib.p1);
-			rotfVector(b->triangles[tb].p2, rb, trib.p2);
-			rotfVector(b->triangles[tb].p3, rb, trib.p3);
+		for(int eb = 0; eb < b->edgeCount; eb++){
+			struct edge edgeb;
+			rotfVector(b->edges[eb].a, rb, edgeb.a);
+			rotfVector(b->edges[eb].b, rb, edgeb.b);
 			for(int dim = 0; dim < 3; dim++){
-				trib.p1[dim]+=offset[dim];
-				trib.p2[dim]+=offset[dim];
-				trib.p3[dim]+=offset[dim];
+				edgeb.a[dim]+=offset[dim];
+				edgeb.b[dim]+=offset[dim];
 			}
-			if(trianglesIntersect(tria, trib)) return 1;
-			
+			if(intersect_triangle(edgeb.a, edgeb.b, tria.p1, tria.p2, tria.p3)) return 1;
 		}
 	}
-	return 0;
-}
-int trianglesIntersect(struct tri a, struct tri b){
-//	printf("%f %f %f  %f %f %f  %f %f %f\n%f %f %f  %f %f %f  %f %f %f\n\n", a.p1[0], a.p1[1], a.p1[2], a.p2[0], a.p2[1], a.p2[2], a.p3[0], a.p3[1], a.p3[2], b.p1[0], b.p1[1], b.p1[2], b.p2[0], b.p2[1], b.p2[2], b.p3[0], b.p3[1], b.p3[2]);
-	if(intersect_triangle(a.p1, a.p2, b.p1, b.p2, b.p3) ||
-	intersect_triangle(a.p2, a.p3, b.p1, b.p2, b.p3) ||
-	intersect_triangle(a.p3, a.p1, b.p1, b.p2, b.p3) ||
-	intersect_triangle(b.p1, b.p2, a.p1, a.p2, a.p3) ||
-	intersect_triangle(b.p2, b.p3, a.p1, a.p2, a.p3) ||
-	intersect_triangle(b.p3, b.p1, a.p1, a.p2, a.p3)){
-		return 1;
+
+//MAD Code Dupe
+
+	for(int dim = 0; dim < 3; dim++){
+		offset[dim] = pa[dim]-pb[dim];
+	}
+	for(int tb = 0; tb < b->triangleCount; tb++){
+		struct tri trib;
+		rotfVector(b->triangles[tb].p1, rb, trib.p1);
+		rotfVector(b->triangles[tb].p2, rb, trib.p2);
+		rotfVector(b->triangles[tb].p3, rb, trib.p3);
+		for(int ea = 0; ea < a->edgeCount; ea++){
+			struct edge edgea;
+			rotfVector(a->edges[ea].a, ra, edgea.a);
+			rotfVector(a->edges[ea].b, ra, edgea.b);
+			for(int dim = 0; dim < 3; dim++){
+				edgea.a[dim]+=offset[dim];
+				edgea.b[dim]+=offset[dim];
+			}
+			if(intersect_triangle(edgea.a, edgea.b, trib.p1, trib.p2, trib.p3)) return 1;
+		}
 	}
 	return 0;
 }

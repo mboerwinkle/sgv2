@@ -30,7 +30,7 @@ int main(){
 		aiData dat;
 		dat.fighter.mode = -1;
 		//addSpawnQueue(cs, cr, 1, idleAi, dat, 1, NULL, 0);
-		/*ability* myAbilities = calloc(1, sizeof(ability));
+		ability* myAbilities = calloc(1, sizeof(ability));
 		myAbilities[0].act = ability_AutoMachinegun;
 		myAbilities[0].max = 2;
 		myAbilities[0].cooldown = 2;
@@ -62,9 +62,9 @@ int main(){
 				cs[2]-=800*3;
 			}
 			cs[1]-=3*400;
-		}*/
+		}
 
-	} 
+	}
 	while(1){
 		delay(40);
 		handleHumanSpawnRequests();
@@ -91,7 +91,7 @@ void handleHumanSpawnRequests(){
 			myAbilities[0].act = ability_AutoMachinegun;
 			myAbilities[0].max = 2;
 			myAbilities[0].cooldown = 2;
-			addSpawnQueue(cs, cr, 2, humanAi, dat, 1, myAbilities, 1);
+			addSpawnQueue(cs, cr, 3, humanAi, dat, 1, myAbilities, 1);
 			userList[userIdx].myControls.spawn = -1;
 			
 		}

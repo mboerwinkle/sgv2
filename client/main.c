@@ -40,8 +40,8 @@ int main(int argc, char** argv){
 		upVector[0] = 0;
 		upVector[1] = 0;
 		upVector[2] = 1;
-		rotVector(facing, myRot);
-		rotVector(upVector, myRot);
+		rotVector(facing, myRot, facing);
+		rotVector(upVector, myRot, upVector);
 		handleNetwork();
 		if(handleEvents()){
 			break;

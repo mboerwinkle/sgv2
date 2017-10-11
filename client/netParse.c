@@ -51,8 +51,8 @@ void messageParse(){
 		printf("%s\n", data+3);
 	}else if(!strcmp(prefix, "SCN")){
 		int dataUsed = 3;
-		p3dEqual(myPos, (int*)(data+dataUsed)); dataUsed+=sizeof(point3d);
-		quatEqual(targRot, (double*)(data+dataUsed)); dataUsed+=sizeof(quaternion);
+		P3DEQUAL(myPos, (int*)(data+dataUsed)); dataUsed+=sizeof(point3d);
+		QUATEQUAL(targRot, (double*)(data+dataUsed)); dataUsed+=sizeof(quaternion);
 		int shipsUsed = *((int*)(data+dataUsed)); dataUsed+=sizeof(int);
 		gfxClear();
 		quaternion shipRotation;

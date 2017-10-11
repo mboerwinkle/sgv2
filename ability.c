@@ -21,10 +21,10 @@ void ability_Machinegun(ship* target){
 	dir[1] = ((short*)(&rint))[0]%500;
 	dir[2] = ((short*)(&rint))[1]%500;
 	vecNormalize(dir);
-	rotVector(dir, target->myRotation);
+	rotVector(dir, target->myRotation, dir);
 	point3d bulletStart;
 	for(int dim = 0; dim < 3; dim++){
-		bulletStart[dim] = target->myPosition[dim]+(int)(dir[dim]*(target->myModel->radius+target->speed+5));
+		bulletStart[dim] = target->myPosition[dim]+(int)(dir[dim]*(target->myModel.dat->radius+target->speed+5));
 	}
 	newBullet(0, bulletStart, dir, 500);
 }
@@ -36,7 +36,7 @@ void ability_AutoMachinegun(ship* target){
 	double score = INFINITY;
 	for(int sIdx = 0; sIdx < quantity; sIdx++){
 		if(draw[sIdx]->color == target->color) continue;
-		double newscore = p3dDistance(target->myPosition, draw[sIdx]->myPosition);
+		double newscore = DISTANCE(target->myPosition, draw[sIdx]->myPosition);
 		if(newscore < score){
 			score = newscore;
 			best = draw[sIdx];
@@ -51,7 +51,7 @@ void ability_AutoMachinegun(ship* target){
 	vecNormalize(dir);
 	point3d bulletStart;
 	for(int dim = 0; dim < 3; dim++){
-		bulletStart[dim] = target->myPosition[dim]+(int)(dir[dim]*(target->myModel->radius+target->maxSpeed+5));
+		bulletStart[dim] = target->myPosition[dim]+(int)(dir[dim]*(target->myModel.dat->radius+target->maxSpeed+5));
 	}
 	newBullet(0, bulletStart, dir, 500);
 }

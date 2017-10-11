@@ -31,7 +31,7 @@ void tickShips(){
 	for(int shipIdx = 0; shipIdx < shipCount; shipIdx++){
 		ship* currShip = &(shipList[shipIdx]);
 		double axis[3] = {1, 0, 0};
-		rotVector(axis, currShip->myRotation);
+		rotVector(axis, currShip->myRotation, axis);
 		for(int dim = 0; dim < 3; dim++){
 			double motion = (currShip->speed)*(axis[dim]);
 			currShip->positionOffset[dim] += motion;
@@ -48,7 +48,8 @@ void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiDa
 	}
 	spawnQueue[spawnQueueSize] = copyShip(&(shipTemplates[type]), pos, rot);
 	spawnQueue[spawnQueueSize].type = type;//FIXME this shouldnt be here. complete newship
-	spawnQueue[spawnQueueSize].myModel = &(models[type]);
+	spawnQueue[spawnQueueSize].myModel.dat = &(models[type]);
+	spawnQueue[spawnQueueSize].myModel.rotatedPoints = calloc(models[type].pointCount, sizeof(vector));
 	spawnQueue[spawnQueueSize].ai = ai;
 	spawnQueue[spawnQueueSize].myAiData = myData;
 	spawnQueue[spawnQueueSize].color = color;
@@ -59,6 +60,7 @@ void addSpawnQueue(point3d pos, quaternion rot, int type, void (*ai)(ship*, aiDa
 void clearSpawnQueue(){
 	for(int queueIdx = 0; queueIdx < spawnQueueSize; queueIdx++){
 		spawnShip(&(spawnQueue[queueIdx]));
+		shipList[shipCount-1].myModel.upToDate = 0;
 	}
 	spawnQueueSize = 0;
 }

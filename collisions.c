@@ -2,70 +2,66 @@
 #include <stdlib.h>
 #include "collisions.h"
 #include "common/stlLoad/loadStl.h"
-int modelCollide(model* a, point3d pa, quaternion ra, model* b, point3d pb, quaternion rb);
+int modelCollide(modelReference* a, point3d pa, modelReference* b, point3d pb);//FIXME make modelReferences not be pointers.
 
 void handleCollisions(ship* ref, ship** col, int colCount){
 	point3d pos;
-	p3dEqual(pos, ref->myPosition);
-	double rad = ref->myModel->radius;
+	P3DEQUAL(pos, ref->myPosition);
+	double rad = ref->myModel.dat->radius;
+	rotatePoints(&(ref->myModel), ref->myRotation);
 	for(int idx = 0; idx < colCount; idx++){
 		point3d pos2;
-		p3dEqual(pos2, col[idx]->myPosition);
-		double rad2 = col[idx]->myModel->radius;
-		//if(p3dDistance(pos, pos2) > rad+rad2) continue;
-		if(modelCollide(ref->myModel, pos, ref->myRotation, col[idx]->myModel, pos2, col[idx]->myRotation)){
-//			puts("collided ships");
+		P3DEQUAL(pos2, col[idx]->myPosition);
+		double rad2 = col[idx]->myModel.dat->radius;
+		if(DISTANCE(pos, pos2) > rad+rad2) continue;
+		rotatePoints(&(col[idx]->myModel), col[idx]->myRotation);
+		if(modelCollide(&(ref->myModel), pos, &(col[idx]->myModel), pos2)){
 		}
 	}
 }
 
-int modelCollide(model* a, point3d pa, quaternion ra, model* b, point3d pb, quaternion rb){//FIXME... we might have to perform the same rotation many times per tick
+int modelCollide(modelReference* a, point3d pa, modelReference* b, point3d pb){
 	int offset[3];
+	vector e[2];//for applying offsets
+	model* am = a->dat;
+	model* bm = b->dat;
+	vector* apts = a->rotatedPoints;
+	vector* bpts = b->rotatedPoints;
 	for(int dim = 0; dim < 3; dim++){
 		offset[dim] = pb[dim]-pa[dim];
 	}
-	for(int ta = 0; ta < a->triangleCount; ta++){
-		struct tri tria;
-		rotfVector(a->triangles[ta].p1, ra, tria.p1);
-		rotfVector(a->triangles[ta].p2, ra, tria.p2);
-		rotfVector(a->triangles[ta].p3, ra, tria.p3);
-		for(int eb = 0; eb < b->edgeCount; eb++){
-			struct edge edgeb;
-			rotfVector(b->edges[eb].a, rb, edgeb.a);
-			rotfVector(b->edges[eb].b, rb, edgeb.b);
-			for(int dim = 0; dim < 3; dim++){
-				edgeb.a[dim]+=offset[dim];
-				edgeb.b[dim]+=offset[dim];
+	for(int pass = 0; pass < 2; pass++){
+		for(int ta = 0; ta < am->triangleCount; ta++){
+			struct tri* t = &(am->triangles[ta]);
+			for(int eb = 0; eb < bm->edgeCount; eb++){
+				for(int dim = 0; dim < 3; dim++){
+					e[0][dim] = bpts[bm->edges[eb][0]][dim] + offset[dim];
+					e[1][dim] = bpts[bm->edges[eb][1]][dim] + offset[dim];
+				}
+				if(intersect_triangle(e[0], e[1], apts[t->v[0]], apts[t->v[1]], apts[t->v[2]])) return 1;
 			}
-			if(intersect_triangle(edgeb.a, edgeb.b, tria.p1, tria.p2, tria.p3)) return 1;
 		}
-	}
-
-//MAD Code Dupe
-
-	for(int dim = 0; dim < 3; dim++){
-		offset[dim] = pa[dim]-pb[dim];
-	}
-	for(int tb = 0; tb < b->triangleCount; tb++){
-		struct tri trib;
-		rotfVector(b->triangles[tb].p1, rb, trib.p1);
-		rotfVector(b->triangles[tb].p2, rb, trib.p2);
-		rotfVector(b->triangles[tb].p3, rb, trib.p3);
-		for(int ea = 0; ea < a->edgeCount; ea++){
-			struct edge edgea;
-			rotfVector(a->edges[ea].a, ra, edgea.a);
-			rotfVector(a->edges[ea].b, ra, edgea.b);
+		if(pass == 0){
 			for(int dim = 0; dim < 3; dim++){
-				edgea.a[dim]+=offset[dim];
-				edgea.b[dim]+=offset[dim];
+				offset[dim] *= -1;
 			}
-			if(intersect_triangle(edgea.a, edgea.b, trib.p1, trib.p2, trib.p3)) return 1;
+			void* xchange = a;
+			a = b;
+			b = xchange;
+
+			xchange = am;
+			am = bm;
+			bm = xchange;
+
+			xchange = apts;
+			apts = bpts;
+			bpts = xchange;
 		}
 	}
 	return 0;
 }
 #define EPSILON 0.00001
-int intersect_triangle(vectorf l1, vectorf l2, vectorf vert0, vectorf vert1, vectorf vert2){//credit Tomas Moller and Ben Trumbore "Fast, minimum storage ray/triangle intersection"
+int intersect_triangle(vector l1, vector l2, vector vert0, vector vert1, vector vert2){//credit Tomas Moller and Ben Trumbore "Fast, minimum storage ray/triangle intersection"
 	float dir[3];//FIXME these should all be doubles
 	dir[0] = l2[0]-l1[0];//FIXME copy the macros from RELIGN
 	dir[1] = l2[1]-l1[1];

@@ -24,7 +24,6 @@ bullet collision multithreading (2)
 ways to speed up ship collisions:
 
 
-	precalculate edges (speed boost x2)
 		--PLEASE REENABLE BOUNDING SPHERES
 
 	macro for revQuatMult

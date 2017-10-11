@@ -91,15 +91,16 @@ void drawShip(short type, point3d where, quaternion rot, char color) {
 	glTranslated(pos[0], pos[1], pos[2]);
 	glMultMatrixd(rotMatrix);
 	glBegin(GL_TRIANGLES);
-	for(int idx = 0; idx < models[type].triangleCount; idx++){
-		struct tri* t = &(models[type].triangles[idx]);
-		vector rotatedNormal = {t->vec[0], t->vec[1], t->vec[2]};
-		rotVector(rotatedNormal, rot);
+	model* m = &(models[type]);
+	for(int idx = 0; idx < m->triangleCount; idx++){
+		struct tri* t = &(m->triangles[idx]);
+		vector rotatedNormal = {t->normal[0], t->normal[1], t->normal[2]};
+		rotVector(rotatedNormal, rot, rotatedNormal);
 		double mult =  0.2+fabs(DOT(rotatedNormal, facing))*0.8;
 		glColor3f(red*mult, green*mult, blue*mult);
-		v3f(t->p1[0], t->p1[1], t->p1[2]);
-		v3f(t->p2[0], t->p2[1], t->p2[2]);
-		v3f(t->p3[0], t->p3[1], t->p3[2]);
+		v3f(m->points[t->v[0]][0], m->points[t->v[0]][1], m->points[t->v[0]][2]);
+		v3f(m->points[t->v[1]][0], m->points[t->v[1]][1], m->points[t->v[1]][2]);
+		v3f(m->points[t->v[2]][0], m->points[t->v[2]][1], m->points[t->v[2]][2]);
 	}
 	glEnd();
 	glPopMatrix();

@@ -70,7 +70,7 @@ typedef struct ship{
 	double yawSpeed;
 	char color;
 	char type;
-	model* myModel;
+	modelReference myModel;
 	char name[8];
 
 	void (*ai)(ship*, aiData*);

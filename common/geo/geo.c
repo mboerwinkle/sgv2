@@ -3,29 +3,6 @@
 #include <string.h>
 #include <math.h>
 #include "geo.h"
-/*
-void cross(vector a, vector b, vector save){
-	vector ret;
-	ret[0] = a[1]*b[2]-a[2]*b[1];
-	ret[1] = a[2]*b[0]-a[0]*b[2];
-	ret[2] = a[0]*b[1]-a[1]*b[0];
-	vecEqual(save, ret);
-}
-void crossf(vectorf a, vectorf b, vectorf save){
-	vectorf ret;
-	ret[0] = a[1]*b[2]-a[2]*b[1];
-	ret[1] = a[2]*b[0]-a[0]*b[2];
-	ret[2] = a[0]*b[1]-a[1]*b[0];
-	vecfEqual(save, ret);
-}
-
-double dot(vector a, vector b){
-	return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
-}
-double dotf(vectorf a, vectorf b){
-	return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
-}
-*/
 void vecNormalize(vector a){
 	double val = VECLEN(a);
 	a[0]/=val;
@@ -39,33 +16,6 @@ void vecfNormalize(vectorf a){
 	a[2]/=val;
 }
 
-double p3dDistance(point3d a, point3d b){
-	point3d d = {a[0]-b[0], a[1]-b[1], a[2]-b[2]};
-	return sqrt(d[0]*d[0]+d[1]*d[1]+d[2]*d[2]);
-}
-
-//macrotize
-void vecEqual(vector a, vector b){
-	memcpy(a, b, sizeof(vector));
-}
-void vecfEqual(vectorf a, vectorf b){
-	memcpy(a, b, sizeof(vectorf));
-}
-void p3dEqual(point3d a, point3d b){
-	memcpy(a, b, sizeof(point3d));
-}
-void quatEqual(quaternion a, quaternion b){
-	memcpy(a, b, sizeof(quaternion));
-}
-
-/*
-double vecLen(vector a){
-	return sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
-}
-double vecfLen(vectorf a){
-	return sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
-}
-*/
 //append a to b and save to save
 void quatMult(double* a, double* b, double* save){
 	quaternion newTarg;//fixme dont have save. instead return an array
@@ -73,41 +23,40 @@ void quatMult(double* a, double* b, double* save){
 	newTarg[1]=(b[0] * a[1] + b[1] * a[0] + b[2] * a[3] - b[3] * a[2]);
 	newTarg[2]=(b[0] * a[2] - b[1] * a[3] + b[2] * a[0] + b[3] * a[1]);
 	newTarg[3]=(b[0] * a[3] + b[1] * a[2] - b[2] * a[1] + b[3] * a[0]);
-	quatEqual(save, newTarg);
+	QUATEQUAL(save, newTarg);
 }
 void lerp(quaternion ret, quaternion one, quaternion two, double t){
 	quaternion temp;
 	for(int x = 0; x < 4; x++){
 		temp[x] = two[x]*t+one[x]*(1-t);
 	}
-	quatEqual(ret, temp);
-}
-double quatLen(quaternion r){//FIXME macrotize
-	return sqrt(r[0]*r[0]+r[1]*r[1]+r[2]*r[2]+r[3]*r[3]);
+	QUATEQUAL(ret, temp);
 }
 void quatNormalize(quaternion r){
-	double val = quatLen(r);
+	double val = QUATLEN(r);
 	r[0]/=val;
 	r[1]/=val;
 	r[2]/=val;
 	r[3]/=val;
 }
-void rotVector(vector vec, quaternion rot){//FIXME adopt the behavior of rotfVector
+void rotVector(vector vec, quaternion rot, vector output){
 	double mag = VECLEN(vec);
 	quaternion pureVec = {0, vec[0]/mag, vec[1]/mag, vec[2]/mag};
 	quaternion revRot = {rot[0], -rot[1], -rot[2], -rot[3]};
-	quatMult(rot, pureVec, pureVec);
-	quatMult(pureVec, revRot, pureVec);
-	vec[0] = pureVec[1]*mag;
-	vec[1] = pureVec[2]*mag;
-	vec[2] = pureVec[3]*mag;
+	quaternion temp;
+	QUATMULT(rot, pureVec, temp);
+	QUATMULT(temp, revRot, pureVec);
+	output[0] = pureVec[1]*mag;
+	output[1] = pureVec[2]*mag;
+	output[2] = pureVec[3]*mag;
 }
 void rotfVector(vectorf vec, quaternion rot, vectorf output){
 	double mag = VECLEN(vec);
 	quaternion pureVec = {0, vec[0]/mag, vec[1]/mag, vec[2]/mag};
 	quaternion revRot = {rot[0], -rot[1], -rot[2], -rot[3]};
-	quatMult(rot, pureVec, pureVec);
-	quatMult(pureVec, revRot, pureVec);
+	quaternion temp;
+	QUATMULT(rot, pureVec, temp);
+	QUATMULT(temp, revRot, pureVec);
 	output[0] = pureVec[1]*mag;
 	output[1] = pureVec[2]*mag;
 	output[2] = pureVec[3]*mag;

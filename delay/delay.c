@@ -12,7 +12,7 @@ void delay(int fps){
 		t.tv_nsec = sleep;
 		nanosleep(&t, NULL);
 	}else{
-		//puts("tick's computations took more than allotted time");
+		puts("tick's computations took more than allotted time");
 	}
 	clock_gettime(CLOCK_MONOTONIC, &lastTime);
 }

@@ -7,6 +7,7 @@
 
 
 
+#include "../common/controlMap.h"
 #include "def.h"
 #include "netParse.h"
 #include "gfx.h"
@@ -23,6 +24,8 @@ quaternion targRot = {1,0,0,0};
 vector facing = {1, 0, 0};
 vector upVector = {0, 0, 1};
 int main(int argc, char** argv){
+	ctls.spawn = -1;
+	ctls.fire = -1;
 	loadModels("../common/models/");
 	if(argc == 1){
 		startNetwork(localhost, 5999);

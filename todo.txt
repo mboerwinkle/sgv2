@@ -1,16 +1,16 @@
+send hp in network data
+team struct/spawn request queue
+space station models
+automachine gun spread
+names
+bulletOctree
+
 go through and check that my casted math is done right
 bounding boxes for bullets/ship collisions
-store the actual meshes in non-compacted data structures for speed.
-
-send hp in network data
 
 fighter ai (passes instead of circling)
-spawn request queue
 
 smooth view shifting
-names
-team struct
-destroyer ai
 asteroid field
 stamina/boost
 have distance function check for overflow
@@ -22,8 +22,4 @@ bullet collision multithreading (2)
 
 
 ways to speed up ship collisions:
-
-
-		--PLEASE REENABLE BOUNDING SPHERES
-
-	macro for revQuatMult
+	split up models into octants/bsp/bounding boxes

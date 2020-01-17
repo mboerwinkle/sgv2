@@ -1,5 +1,9 @@
-3
+8
 hole.stl
 ship1.stl
 alienCarrier.stl
+humanCarrier.stl
+alienFighter.stl
+humanFighter.stl
+userShip.stl
 test.stl

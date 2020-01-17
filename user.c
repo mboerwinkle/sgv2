@@ -8,7 +8,7 @@
 #include "bullet.h"
 
 #define MAXUSERS 20
-#define VIEW_DISTANCE 10000
+
 user userList[MAXUSERS];
 int userCount = 0;
 
@@ -33,9 +33,9 @@ void sendView(user* destination){
 	int dloc = 3;//next free place to write to
 	ship** draw = NULL;
 	int quantity = getShipsWithin(&draw, destination->myPosition, VIEW_DISTANCE);
-	p3dEqual((int*)&(data[dloc]), destination->myPosition);
+	P3DEQUAL((int*)&(data[dloc]), destination->myPosition);
 	dloc+=sizeof(point3d);
-	quatEqual((double*)&(data[dloc]), destination->myRotation);
+	QUATEQUAL((double*)&(data[dloc]), destination->myRotation);
 	dloc+=sizeof(quaternion);
 	*(int*)&(data[dloc]) = quantity;
 	dloc+=sizeof(int);
@@ -48,7 +48,7 @@ void sendView(user* destination){
 	*netBulletCount = 0;
 	dloc+=sizeof(int);
 	for(int bIdx = 0; bIdx < bulletCount; bIdx++){
-		if(p3dDistance(bulletList[bIdx].myPos, destination->myPosition) < VIEW_DISTANCE){//FIXME should have some sort of optimization (octree)
+		if(DISTANCE(bulletList[bIdx].myPos, destination->myPosition) < VIEW_DISTANCE){//FIXME should have some sort of optimization (octree)
 			*(networkBullet*)&(data[dloc]) = getBulletNetworkData(&(bulletList[bIdx]));
 			(*netBulletCount) = (*netBulletCount)+1;
 			dloc+=sizeof(networkBullet);
@@ -61,7 +61,7 @@ void sendView(user* destination){
 //FIXME take in a networkShipData ptr to write to
 networkShipData getNetworkShipData(ship* target){
 	networkShipData ret;
-	p3dEqual(ret.myPosition, target->myPosition);
+	P3DEQUAL(ret.myPosition, target->myPosition);
 	//quatEqual(ret.myRotation, target->myRotation);
 	for(int dim = 0; dim < 4; dim++){
 		ret.myRotation[dim] = target->myRotation[dim]*127;

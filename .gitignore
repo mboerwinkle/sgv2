@@ -1,3 +1,8 @@
+#3d models
+*.stl
+*.fcstd
+*.fcstd1
+
 # Prerequisites
 *.d
 

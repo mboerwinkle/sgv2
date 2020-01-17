@@ -83,11 +83,11 @@ void initGrid(){//FIXME undefined behavior if no ships
 	//finds min and max
 	point3d zero = {0, 0, 0};
 	point3d big = {INT_MAX, INT_MAX, INT_MAX};
-	p3dEqual(min, big);
-	p3dEqual(max, zero);
+	P3DEQUAL(min, big);
+	P3DEQUAL(max, zero);
 	for(int shipIdx = 0; shipIdx < shipCount; shipIdx++){
 		point3d p;
-		p3dEqual(p, shipList[shipIdx].myPosition);
+		P3DEQUAL(p, shipList[shipIdx].myPosition);
 		for(int dim = 0; dim < 3; dim++){
 			if(p[dim] < min[dim]) min[dim] = p[dim];
 			if(p[dim] > max[dim]) max[dim] = p[dim];
@@ -102,7 +102,7 @@ void initGrid(){//FIXME undefined behavior if no ships
 	while(gridSize < mindif) gridSize*=2;//bitshift?
 	getNode();//idx 0
 	nodeList[0].size = gridSize;
-	p3dEqual(nodeList[0].corner, min);
+	P3DEQUAL(nodeList[0].corner, min);
 }
 int getNode(){
 	if(nodeCount == nodesUsed){
@@ -155,14 +155,14 @@ void addShip(ship* ref, int nodeIdx){
 	/*Otherwise*///FIXME make these two options (listing or otherwise) separate functions
 		//FIXME make nodes have their children and their pointers in a union to conserve memory
 	int e[8] = {1, 1, 1, 1, 1, 1, 1, 1};
-	sphereIntersectsQuadrant(e, &(nodeList[nodeIdx]), ref->myPosition, ref->myModel->radius);
+	sphereIntersectsQuadrant(e, &(nodeList[nodeIdx]), ref->myPosition, ref->myModel.dat->radius);
 	int s = nodeList[nodeIdx].size;
 	for(int i = 0; i < 8; i++){
 		if(e[i]){
 			if(nodeList[nodeIdx].children[i] == 0){
 				int cIdx = getNode();
 				nodeList[nodeIdx].children[i] = cIdx;
-				p3dEqual(nodeList[cIdx].corner, nodeList[nodeIdx].corner);
+				P3DEQUAL(nodeList[cIdx].corner, nodeList[nodeIdx].corner);
 				nodeList[cIdx].size = s/2;
 				int icopy = i;
 				if(icopy >= 4){//FIXME do with binary masks
@@ -243,5 +243,14 @@ void showGrid(node* thisOne, int tabs){
 	}
 	for(int tab = 0; tab < tabs; tab++) printf("  ");
 	printf("}\n");
-	if(tabs == 0) printf("%d ships\n%d nodes\n", shipCount, nodesUsed);
+	if(tabs == 0){
+		printf("%d ships\n%d nodes\n", shipCount, nodesUsed);
+		int color[5] = {0};
+		for(int sIdx = 0; sIdx < shipCount; sIdx++){
+			color[(int)shipList[sIdx].color]++;
+		}
+		for(int c = 0; c < 5; c++){
+			printf("color %d: %d\n", c, color[c]);
+		}
+	}
 }

@@ -17,6 +17,7 @@ extern ship* shipList;
 extern int shipCountMax;
 extern int shipCount;
 
+extern void tickShipAi();
 extern void tickShips();
 extern void killShips();
 
@@ -69,7 +70,7 @@ typedef struct ship{
 	double yawSpeed;
 	char color;
 	char type;
-	model* myModel;
+	modelReference myModel;
 	char name[8];
 
 	void (*ai)(ship*, aiData*);

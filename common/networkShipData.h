@@ -6,6 +6,7 @@ typedef struct networkShipData{
 	char myRotation[4];//4 bytes haha unit quaternions expressed in the size of an int? good idea!
 	char type;//1 byte FIXME should this structure preexist for every ship?
 	char color;//1 byte
+//	char hp;//1 byte
 }networkShipData;
 
 typedef struct networkBullet{

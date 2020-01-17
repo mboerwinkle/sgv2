@@ -43,8 +43,16 @@ int spKeyAction(SDL_Keycode key, int pressed){
 			ctls.yaw = pressed;
 			return 1;
 		case SDLK_SPACE:
-			ctls.fire = pressed;
+			if(pressed){
+				ctls.fire = weapSel;
+			}else{
+				ctls.fire = -1;
+			}
 			return 1;
+		case SDLK_e:
+			if(pressed) weapSel++;
+		case SDLK_q:
+			if(pressed) weapSel--;
 		default:
 			return 0;
 	}

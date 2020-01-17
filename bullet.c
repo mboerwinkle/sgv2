@@ -9,22 +9,23 @@ int bulletCountMax;
 int bulletCount;
 
 int bulletIntersectsShip(bullet* b, ship* s){
-	vectorf origin;
-	vectorf dir;
+	vector origin;
+	vector dir;
 	for(int dim = 0; dim < 3; dim++){//FIXME vecequals
 		dir[dim] = b->myVector[dim]*b->speed;
 		origin[dim] = (b->myPos[dim]-s->myPosition[dim]);
 	}
 	quaternion revRot = {s->myRotation[0], -s->myRotation[1], -s->myRotation[2], -s->myRotation[3]};//FIXME revRot
-	rotfVector(dir, revRot, dir);//this is fucked. FIXME
-	rotfVector(origin, revRot, origin);
+	rotVector(dir, revRot, dir);//this is fucked. FIXME
+	rotVector(origin, revRot, origin);
 	for(int dim = 0; dim < 3; dim++){
 		dir[dim]+=origin[dim];//This shouldn't exist. I change a vector to an end point here. but intersect_triangle turns it back. This is a big issue since bullets are effPrio#1
 	}
-	model* cModel = s->myModel;
+	model* cModel = s->myModel.dat;
+	vector* pts = cModel->points;
 	for(int triIdx = 0; triIdx < cModel->triangleCount; triIdx++){
 		struct tri* cTri = &(cModel->triangles[triIdx]);
-		if(intersect_triangle(origin, dir, cTri->p1, cTri->p2, cTri->p3)){
+		if(intersect_triangle(origin, dir, pts[cTri->v[0]], pts[cTri->v[1]], pts[cTri->v[2]])){//We don't use prerotated points at all here. just stock.
 		//	puts("intersected");
 			return 1;
 		}
@@ -63,8 +64,8 @@ void newBullet(char type, point3d pos, vector dir, int speed){
 		bulletCountMax+=20;
 		bulletList = realloc(bulletList, sizeof(bullet)*bulletCountMax);
 	}
-	p3dEqual(bulletList[bulletCount].myPos, pos);
-	vecEqual(bulletList[bulletCount].myVector, dir);
+	P3DEQUAL(bulletList[bulletCount].myPos, pos);
+	VECEQUAL(bulletList[bulletCount].myVector, dir);
 	bulletList[bulletCount].type = type;
 	bulletList[bulletCount].speed = speed;
 	if(type == 0){
@@ -78,7 +79,7 @@ void newBullet(char type, point3d pos, vector dir, int speed){
 
 networkBullet getBulletNetworkData(bullet* target){
 	networkBullet ret;
-	p3dEqual(ret.origin, target->myPos);
+	P3DEQUAL(ret.origin, target->myPos);
 	for(int dim = 0; dim < 3; dim++){
 		ret.dir[dim] = target->myVector[dim]*127;
 	}

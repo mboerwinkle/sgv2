@@ -3,6 +3,7 @@
 #include "common/geo/geo.h"
 #include "ship.h"
 #define GRANULARITY 1200//just a guess. should be tuned later
+#define VIEW_DISTANCE 10000
 /*brief intro here.
 Octree collision map supposed to provide O(n) ship collision lookup time (where n is the number of ships assuming identical density)
 
